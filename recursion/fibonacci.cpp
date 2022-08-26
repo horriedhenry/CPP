@@ -3,6 +3,7 @@ using namespace std;
 
 int fib(int n) {
     //fib(50) = 12586269025
+    // returns nth fibonacci number (n)
     if (n==0)
     {
         return 0;//0th fib is 0 (0 based indexing)
