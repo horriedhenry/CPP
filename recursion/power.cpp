@@ -7,9 +7,9 @@ int power(int n,int p) {
         return 1;
     }
     //recursive case
-    int Power_n_minus_1 = power(n,p-1);
+    int Power_p_minus_1 = power(n,p-1);
     //ans
-    return n * Power_n_minus_1;
+    return n * Power_p_minus_1;
 }
 
 int main(void)
