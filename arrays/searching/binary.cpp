@@ -6,7 +6,9 @@ int binary_search(int arr[],int size, int key) {
     int start=0, end=size;
     while (start <= end)
     {
+        cout<<"start : "<<start<<endl<<"End : "<<end<<endl;
         int mid=(start + end)/2;
+        cout<<"mid : "<<mid<<endl;
         if (arr[mid] == key)
         {
             return mid;
@@ -26,8 +28,9 @@ int binary_search(int arr[],int size, int key) {
 int main(void)
 {
     int arr[10] = {1,2,4,5,6,7,8,9,10,11}, key, size = 10;
-    cout << "key : ";
+    cout << "key : "<<endl;
     cin >> key;
+    cout<<endl;
     cout << binary_search(arr,size,key);
     return 0;
 }
