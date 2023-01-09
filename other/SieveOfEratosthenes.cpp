@@ -1,8 +1,8 @@
 #include<iostream>
 using namespace std;
 
-int sievePrimeFactorization(int size) {
-}
+// int sievePrimeFactorization(int size) {
+// }
 void sievePrimeNumbers(int size) {
     int arr[100]={0};
     for (int i = 2; i < size; i++)

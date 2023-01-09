@@ -1,14 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct tree
-{
-    int value;
-    struct tree *left;
-    struct tree *right;
-
-} tree;
-
 void inverted_pattern(int n)
 {
     for (int i = n; i >= 1; i--)

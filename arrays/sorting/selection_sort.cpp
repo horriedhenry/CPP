@@ -1,5 +1,6 @@
 // Find the minimum element in the unsorted array and swap it with the element the beginning
-#include<iostream>
+#include <iostream>
+#include <type_traits>
 
 using namespace std;
 

@@ -37,5 +37,6 @@ void prime_nbrs()
 
 int main(void)
 {
+    isPrime(10);
     return 0;
 }

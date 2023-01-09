@@ -1,15 +1,13 @@
 // sum of cube of individual numbers = number -> armstrong
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
-int cube(int num) {
-    return (num * num * num);
-}
+int cube(int num) { return (num * num * num); }
 
 int main(void) {
   int n;
-  scanf("%d", &n);
+  scanf_s("%d", &n);
   int num = n;
   int result = 0;
   while (n > 0) {
