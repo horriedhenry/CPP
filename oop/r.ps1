@@ -1,3 +1,3 @@
-g++ oop.cpp
+g++ inheritence.cpp
 ./a
 rm *.exe
