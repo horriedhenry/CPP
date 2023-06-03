@@ -2,6 +2,9 @@
 using namespace std;
 // source : [https://www.javatpoint.com/cpp-inheritance]
 // # Multiple Inheritance.
+// # Ambiquity Resolution in Inheritance
+
+
 
 /*
 NOTES :
@@ -16,6 +19,9 @@ public:
     void drive(std::string&& vehicle) {
         std::cout<<vehicle<<"is driving..."<<endl;
     }
+    void ambiguity() {
+        cout<<"Ambiquity .. Vehicle class"<<endl;
+    }
 };
 
 // Base class 1
@@ -23,6 +29,9 @@ class MusicPlayer {
 public:
     void play_music() {
         std::cout<<"Playing music$$"<<endl;
+    }
+    void ambiguity() {
+        cout<<"Ambiquity .. MusicPlayer class"<<endl;
     }
 };
 
@@ -34,14 +43,17 @@ public:
     void setWheels(int&& noOfWheels) {
         this->noOfWheels = 4;
     }
+    void viewAmbiquity() {
+        Vehile::ambiguity();
+        MusicPlayer::ambiguity();
+    }
 };
 
 int main (int argc, char *argv[]) {
     Car car;
-    car.drive("Car");
-    car.play_music();
-    car.honk();
-    car.setWheels(4);
-    cout<<car.noOfWheels<<endl;
+    //car.ambiguity();//gives an error coz ambiguity exists in two base classes
+    // We should use Vehile::ambiguity(); to specify from which base class
+    // should we use the function from.
+    car.viewAmbiquity();
     return 0;
 }
