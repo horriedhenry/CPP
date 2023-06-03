@@ -1,59 +1,71 @@
 #include <iostream>
 using namespace std;
 // source : [https://www.javatpoint.com/cpp-inheritance]
-// # Multiple Inheritance.
-// # Ambiquity Resolution in Inheritance
+// # Hybrid Inheritance.
+// Look source for Hybrid Inheritance image
 
-
-
-/*
-NOTES :
-Multiple inheritance is the process of deriving a new class that inherits the 
-attributes from two or more classes.
-*/
-
-// Base class 1
-class Vehile {
+class A {
+protected:
+    int a = 1;
 public:
-    int noOfWheels;
-    void drive(std::string&& vehicle) {
-        std::cout<<vehicle<<"is driving..."<<endl;
+    void Afun() {
+        cout<<"Afun()"<<endl;
     }
-    void ambiguity() {
-        cout<<"Ambiquity .. Vehicle class"<<endl;
+    void get_a() {
+        cout<<"a : "<<a<<endl;
     }
 };
 
-// Base class 1
-class MusicPlayer {
+class B : public A{
+protected:
+    int b = 2;
 public:
-    void play_music() {
-        std::cout<<"Playing music$$"<<endl;
+    void Bfun() {
+        cout<<"Bfun()"<<endl;
     }
-    void ambiguity() {
-        cout<<"Ambiquity .. MusicPlayer class"<<endl;
+    void get_b() {
+        cout<<"b : "<<b<<endl;
     }
 };
 
-class Car : public Vehile, public MusicPlayer{
+class C : public B{
+protected:
+    int c = 3;
 public:
-    void honk() {
-        std::cout<<"honk honk..."<<endl;
+    void Cfun() {
+        cout<<"Cfun()"<<endl;
     }
-    void setWheels(int&& noOfWheels) {
-        this->noOfWheels = 4;
+    void get_c() {
+        cout<<"c : "<<c<<endl;
     }
-    void viewAmbiquity() {
-        Vehile::ambiguity();
-        MusicPlayer::ambiguity();
+};
+
+class D : public C{
+protected:
+    int d = 4;
+public:
+    void Dfun() {
+        cout<<"Dfun()"<<endl;
+    }
+    void get_d() {
+        cout<<"d : "<<d<<endl;
+    }
+    void mul() {
+        cout<<"mul() is in D class :"<<endl;
+        cout<<"a * b * c * d = "<<a*b*c*d<<endl;
     }
 };
 
 int main (int argc, char *argv[]) {
-    Car car;
-    //car.ambiguity();//gives an error coz ambiguity exists in two base classes
-    // We should use Vehile::ambiguity(); to specify from which base class
-    // should we use the function from.
-    car.viewAmbiquity();
+    D d;
+    d.Afun();
+    d.Bfun();
+    d.Cfun();
+    d.Dfun();
+    d.get_a();
+    d.get_b();
+    d.get_c();
+    d.get_d();
+    d.mul();
     return 0;
 }
