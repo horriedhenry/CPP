@@ -1,62 +1,47 @@
 #include <iostream>
-#include <stdio.h>
 using namespace std;
 // source : [https://www.javatpoint.com/cpp-inheritance]
-// # Multi-Level Inheritance
+// # Multiple Inheritance.
 
 /*
 NOTES :
+Multiple inheritance is the process of deriving a new class that inherits the 
+attributes from two or more classes.
 */
-class Animal {
-// Base Class
+
+// Base class 1
+class Vehile {
 public:
-    std::string AnimalType = "Animal";
-    void eat() {
-        cout<<"Eating..."<<endl;
-    }
-    void see() {
-        cout<<"Watching.."<<endl;
+    int noOfWheels;
+    void drive(std::string&& vehicle) {
+        std::cout<<vehicle<<"is driving..."<<endl;
     }
 };
 
-class Dog : public Animal {
-// Derived class -> inheriting from class Animal
-// Dog class now has access to all the public methods, and class members
-// or attributes
+// Base class 1
+class MusicPlayer {
 public:
-    int age;
-    void bark() {
-        cout<<"Dog Barks"<<endl;
-    }
-    void type() {
-        cout<<AnimalType<<endl;
+    void play_music() {
+        std::cout<<"Playing music$$"<<endl;
     }
 };
 
-// Multi-Level Inheritance
-// -> When a class inherits from one class which is further inherited by other
-// class. ex : A,B,C are the classes then B inherits from A, and C inherits B 
-// which inherits A
-class BabyDog : public Dog {
+class Car : public Vehile, public MusicPlayer{
 public:
-    void weep() {
-        cout<<"BabyDog Weeping..."<<endl;
+    void honk() {
+        std::cout<<"honk honk..."<<endl;
     }
-    void crawl() {
-        cout<<"BabyDogcrawling"<<endl;
-    }
-    void bark() {
-        cout<<"BabyDog Barks"<<endl;
-        Dog::bark();
+    void setWheels(int&& noOfWheels) {
+        this->noOfWheels = 4;
     }
 };
 
 int main (int argc, char *argv[]) {
-    BabyDog baby;
-    baby.weep();
-    baby.crawl();
-    baby.bark();
-    baby.Dog::bark(); // `::` -> scope resolution operator
-    // `::` -> used to specify which version of function to be used
+    Car car;
+    car.drive("Car");
+    car.play_music();
+    car.honk();
+    car.setWheels(4);
+    cout<<car.noOfWheels<<endl;
     return 0;
 }
