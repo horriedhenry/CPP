@@ -150,3 +150,59 @@ free(aPtr);
 something.
 - This is all, that's what pointer's do, Read through this entire file you will
   understand what a pointer is.
+
+# TODO
+# Pointers to Arrays & Pointers to String
+```c++
+int arr[3] = {1, 2, 3};
+int* arrPtr = arr;
+// use pointer Arithmetics to print array elements
+for(int i = 0; i < sizeof(arr)/sizeof(arr[0]); i++) {
+    cout<<*(arrPtr + i)<<endl;
+}
+```
+- *Arrays in c++ are stored in contiguous memory location*.
+  i.e in a linear way.
+  If we have 3 elements in an int array and the 1st element of the array is at mem
+  location 2000. Then the second element will be at 2004 memory location, as an
+  inteter occupies 4 bytes of memory.
+- We use pointer arithmetics to print array elements.
+- When we use `*(arrPtr + 0)` say `i == 0`, what it does is it prints the 1 element 
+  of the array using its memory location.
+- *When we do this`*(arrPtr + 0)` it adds 0 bytes to the current mem location, and
+  when we use `*(arrPtr + 1)` it adds 4 bytes to the current mem location(coz an
+  inteter is of size 4 bytes. and when we do this `*(arrPtr + 2)` it adds 4 bytes
+  twice to the first mem location of the array i.e `2000` in this case*
+- When we use `*(arrPtr + 0)` say `i == 1`, what it does is it moves 4 bytes ahead
+  in the memory and prints the second element of the array, and the same process
+  goes on till it prints the last element.
+- This `*(arrPtr + 0)` is called as pointer arithmetics, as we are using addition
+  operator to manipulate mem location.
+
+### Pointers to String is almost similar
+```c++
+std::string str = "Hello, Iam Underwater";
+std::string* strPtr = &str;
+std::cout<<*strPtr;
+```
+
+- When we use `*strPtr` it prints the entire string.
+- But when it comes to array if we use `*arrPtr` it prints the first element of
+  the array.
+- So to go through each character in the given string we use something like this
+  `(*strPtr)[i]`, with this we can access each character of the string.
+
+> In C we do it this way.
+
+- As c does not have string keyword or what ever we use character array, to
+  access individual element of the string or char array.
+```c++
+#include <string.h>
+int main (int argc, char *argv[]) {
+    char string[] = "Hello, Iam Underwater";
+    char* strPtr = string;
+    for(int i = 0; i < strlen(string); i++) {
+        printf("%c", *(strPtr + i));
+    }
+}
+```

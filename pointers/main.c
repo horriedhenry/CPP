@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 
 int main (int argc, char *argv[]) {
-    int a = 12;
-    int* aPtr = &a;
-    printf("Address of a is : %p\n", aPtr);
-    printf("Address of aPtr is : %p\n", &aPtr);
-    printf("Address of a using &a : %p", &a);
+    char string[] = "Hello, Iam Underwater";
+    char* strPtr = string;
+    for(int i = 0; i < strlen(string); i++) {
+        printf("%c", *(strPtr + i));
+    }
 }
