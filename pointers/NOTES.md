@@ -206,3 +206,50 @@ int main (int argc, char *argv[]) {
     }
 }
 ```
+
+# Pointer to struct
+```c++
+typedef struct House {
+    std::string location;
+    int sqFoot;
+    int noOfBedrooms;
+}House;
+
+int main() {
+    // Create a new House object called house. 
+    // Or a new struct house using House struct, whatever.
+    House house = {"Dholakpur", 300, 6};
+}
+```
+- When a struct is created it will be allocated with x bytes of memory based on 
+  members of the struct. Lets take the example of the above struct.
+- It has 3 members 1 string and 2 integers that means when a new struct object 
+  is created it will be allocated with 8 + 4 + 4 bytes of memory i.e 16 bytes of
+  memory.
+
+> NOTE : When a struct is allocated with x bytes of memory, all the members of
+  that struct will be located in those x bytes of memory, this does not mean
+  that they will be given contiguous memory like an array, they can be
+  any where in that memory location with those x bytes of memory.
+
+## Accessing house members, the `.` and `->` operators.
+- To access the house members we can use the house object directly.
+```c++
+house.location;
+house.sqFoot;
+house.noOfBedrooms;
+```
+- When we use the house struct directly we use the `.` operator.
+
+### Pointer to a struct the `->` operator.
+```c++
+int main() {
+    House* housePtr = &house;
+    std::cout<<"Using pointer to structure (->) :"<<"\n";
+    std::cout<<housePtr->location<<std::endl;
+    std::cout<<housePtr->sqFoot<<std::endl;
+    std::cout<<housePtr->noOfBedrooms<<std::endl;
+}
+```
+- When we are trying to access the members of the struct using the address of the
+  struct we use `->` operator.

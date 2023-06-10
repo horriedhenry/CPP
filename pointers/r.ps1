@@ -1,3 +1,3 @@
-g++ main.cpp
+g++ ptrTo_struct.cpp
 ./a
 rm *.exe
