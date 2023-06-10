@@ -253,3 +253,26 @@ int main() {
 ```
 - When we are trying to access the members of the struct using the address of the
   struct we use `->` operator.
+
+
+# Void pointer `void*`
+```c++
+int num = 112;
+void* numPtr = &num;
+std::cout<<numPtr;
+std::cout<<*numPtr;// cannot do this, gives an error.
+```
+- `std::cout<<*numPtr` gives an error, coz a void pointer just points to a memory
+  location of any type of variable.
+- we can just use `std::cout<<numPtr` to print the address, we cannot dereference it.
+
+## Typecasting a `void*` pointer
+```c++
+std::cout<<*((int *)numPtr);
+```
+
+- First we use `(int *)numPtr` to change the memory location to store address 
+  of a variable of type int.
+- Then we use `*((int *)numPtr)` to dereference the memory location and print
+  what is present at the memory location.
+
