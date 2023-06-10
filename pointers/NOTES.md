@@ -276,3 +276,26 @@ std::cout<<*((int *)numPtr);
 - Then we use `*((int *)numPtr)` to dereference the memory location and print
   what is present at the memory location.
 
+## malloc()
+- `malloc()` function allocates a chunk of memeory of x bytes provided by the user
+  and returns a void pointer to that memory location.
+- Example to deal with `malloc()`.
+
+```c++
+pHouse = (House *)malloc(sizeof(House));
+```
+- It's simple when we use `malloc(sizeof(House))` `malloc()` allocates a chunk
+  of memory of size `House struct` whatever the size of it, and returns a void
+  pointer to that memory location.
+- Then after that we dereference it to be of type `House` using `(House *)`,
+  so now this statement or whatever `(House *)malloc(sizeof(House))`, converts
+  the memory location allocated by `malloc(sizeof(House))` and converts that
+  memory location to a `House` type which is a struct.
+
+```c++
+void* MyAlloc(size_t param) {
+    return malloc(sizeof(param));
+}
+```
+- So the above function does the same thing as `malloc()`.
+
