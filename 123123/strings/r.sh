@@ -1,1 +1,1 @@
-g++ ./inbuilt_func.cpp -o a && ./a
+g++ ./print_prefix.cpp -o a && ./a
