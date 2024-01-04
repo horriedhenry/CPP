@@ -1,1 +1,1 @@
-g++ ./print_prefix.cpp -o a && ./a
+g++ ./string.cpp -o a && ./a
