@@ -4,8 +4,8 @@ void recursion(int x) {
     if (x > 5) {
         return;
     }
-    recursion(x + 1);
     std::cout << x << std::endl;
+    recursion(x + 1);
 }
 
 int factorial(int n) {
@@ -57,9 +57,35 @@ void print_fibonacci_(int count) {
     std::cout << std::endl;
 }
 
+int sum_n_digits_rec(int n) {
+    // using loop
+    // int res = 0;
+    // for (int i = 1; i <= n; i++) {
+    //     res += i;
+    // }
+    // std::cout << res << "\n";
+    if (n == 0) {
+        return 0;
+    }
+    return n + sum_n_digits_rec(n - 1);
+}
+
+int n_raised_p(int n, int p) {
+    // using loop
+    // int res = 1;
+    // for (int i = 0; i < p; i++) {
+    //     res *= n;
+    // }
+    // std::cout << res << "\n";
+    if (p == 0) {
+        return 1;
+    }
+    return n * n_raised_p(n, p - 1);
+}
+
 int main (int argc, char *argv[]) {
-    // recursion(1);
-    // std::cout << factorial(5) << std::endl;
-    print_fibonacci(10);
+    // std::cout << sum_n_digits_rec(4) << std::endl;
+    // std::cout << n_raised_p(2,3) << "\n";
+    recursion(1);
     return 0;
 }
