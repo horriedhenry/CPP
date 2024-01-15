@@ -1,1 +1,1 @@
-g++ m.cpp -o a && ./a
+g++ fib.cpp -o a && ./a
