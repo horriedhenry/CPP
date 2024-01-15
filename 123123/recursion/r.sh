@@ -1,1 +1,1 @@
-g++ fib.cpp -o a && ./a
+g++ bin_search.cpp -o a && ./a
