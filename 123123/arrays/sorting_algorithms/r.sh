@@ -1,1 +1,1 @@
-g++ ./insertion_sort.cpp -o a && ./a
+g++ ./merge_sort_vec.cpp -o a && ./a
