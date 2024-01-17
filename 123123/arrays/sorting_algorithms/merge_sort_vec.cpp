@@ -27,8 +27,7 @@ void merge(std::vector<int>& arr, int left, int mid, int right) {
 }
 
 void merge_sort(std::vector<int>& arr, int left, int right) {
-    // this is the correct pos for this loop , next pos just is not right.
-    // TODO : make notes for this loop and Merge Sort.
+    // DONE
     // for (int i = left; i <= right; i++) {
     //     std::cout << arr[i] << " ";
     // }
@@ -38,11 +37,6 @@ void merge_sort(std::vector<int>& arr, int left, int right) {
         merge_sort(arr, left, mid);
         merge_sort(arr, mid + 1, right);
         merge(arr,left,mid,right);
-        // not this
-        // for (int i = left; i <= right; i++) {
-        //     std::cout << arr[i] << " ";
-        // }
-        // std::cout << std::endl;
     }
 }
 
