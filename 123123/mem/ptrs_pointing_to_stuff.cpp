@@ -34,7 +34,66 @@ void pointer_to_array() {
     std::cout << "\n";
 }
 
+void pointer_arithmetic() {
+    int arr[3] = {4,5,6};
+    // addition
+    for (int i = 0; i < 3; i++) {
+        std::cout << *(arr + i) << " ";
+    }
+    std::cout << std::endl;
+    // print in reverse order
+    for (int i = 2; i >= 0; i--) {
+        std::cout << *(arr + i) << " ";
+    }
+}
+
+typedef struct Person {
+    int age;
+} Person;
+
+void pointer_to_struct_and_ptr_arithmetic() {
+    Person arr[100];
+    Person* arr_ptr = arr;
+    for (int i = 0; i < 100; i++) {
+        arr_ptr->age = 12;
+        arr_ptr += 1;
+    }
+    // after the above for loop the arr_ptr reaches to last element so reassign
+    // the pointer to point at first memory location of the arr 
+    arr_ptr = arr;
+    for (int i = 0; i < 100; i++) {
+        std::cout << arr_ptr->age << " ";
+    }
+    std::cout << "\n";
+    // or just use the original arr
+    for (int i = 0; i < 100; i++) {
+        (arr + i)->age = 23;
+        // arr[i].age = 12; // or may be use this
+    }
+    for (int i = 0; i < 100; i++) {
+       std::cout << arr[i].age << " "; // use '.' operator when accessing the
+        // contents of struct directly.
+       std::cout << (arr + i)->age << " "; // when using address use `->`
+    }
+}
+
+void typecast_void_pointer() {
+    int a = 100;
+    void* aptr = &a;
+    // aptr = nullptr; // use this before calling free()
+    // free(aptr);
+    std::cout << (int *)aptr << std::endl; // convert void to int pointer
+    // prints address at aptr
+    std::cout << *(int *)aptr << std::endl; // convert void to int pointer
+    // dereference the address, output = 100
+    // Output :
+    // 0x7ffd46106df4
+    // 100
+    aptr = nullptr;
+    free(aptr);
+}
+
 int main (int argc, char *argv[]) {
-    pointer_to_array();
+    pointer_to_struct_and_ptr_arithmetic();
     return 0;
 }
