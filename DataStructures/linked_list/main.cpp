@@ -2,7 +2,22 @@
 #include <iostream>
 
 /* 
+
 NOTE : All functions handle all edge cases or all cases.
+
+void print_available_func() {
+    std::cout << "create_head_node() : Create's a head node" << std::endl;
+    std::cout << "_malloc()          : allocate memory for a new node , return type (Node *)" << std::endl;
+    std::cout << "insert_beg()"    << std::endl;
+    std::cout << "insert_end()"    << std::endl;
+    std::cout << "insert_at_pos()" << std::endl;
+    std::cout << "delete_beg()"    << std::endl;
+    std::cout << "delete_end()"    << std::endl;
+    std::cout << "delete_at_pos()" << std::endl;
+    std::cout << "delete_all_nodes() : Delete entire linked list" << std::endl;
+    std::cout << "print_node_data()" << std::endl;
+}
+
 */
 
 typedef struct Node {
@@ -200,26 +215,6 @@ void delete_all_nodes() {
     std::cout << "[delete_all_nodes] : Entire linked list is deleted" << std::endl;
 }
 
-void print_available_func() {
-    std::cout << "create_head_node() : Create's a head node" << std::endl;
-    std::cout << "_malloc()          : allocate memory for a new node , return type (Node *)" << std::endl;
-    std::cout << "insert_beg()"    << std::endl;
-    std::cout << "insert_end()"    << std::endl;
-    std::cout << "insert_at_pos()" << std::endl;
-    std::cout << "delete_beg()"    << std::endl;
-    std::cout << "delete_end()"    << std::endl;
-    std::cout << "delete_at_pos()" << std::endl;
-    std::cout << "delete_all_nodes() : Delete entire linked list" << std::endl;
-    std::cout << "print_node_data()" << std::endl;
-}
-
 int main (int argc, char *argv[]) {
-    insert_end(100);
-    insert_end(102);
-    insert_end(103);
-    insert_at_pos(101,2);
-    delete_at_pos(4);
-    delete_all_nodes();
-    print_node_data();
     return 0;
 }
