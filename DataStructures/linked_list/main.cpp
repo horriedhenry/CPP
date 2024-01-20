@@ -48,6 +48,7 @@ void insert_end(int data) {
     next->data = data;
     next->link = NULL;
     while (temp->link != NULL) {
+        // TODO : notes [whey is temp->link used] (document this)
         temp = temp->link;
     }
     temp->link = next;
@@ -130,7 +131,7 @@ int count_nodes() {
 }
 
 void insert_at_pos(int data, int pos) {
-    // TODO : Notes on how insert_at_pos() work [pos--, pos - 1]
+    // TODO : Notes on how insert_at_pos() work [pos--, pos - 1] (document this)
     if (head == NULL) {
         std::cout << "[insert_at_pos] : List Is Empty" << std::endl;
         return;
@@ -162,7 +163,7 @@ void insert_at_pos(int data, int pos) {
 
 void delete_at_pos(int pos) {
     // TODO : notes about delete_at_pos() [pos--,pos - 1] in case of 
-    // delete_at_pos()
+    // delete_at_pos() (document this) 
     if (head == NULL) {
         std::cout << "[delete_at_pos] : List Is Empty" << std::endl;
         return;
@@ -179,7 +180,7 @@ void delete_at_pos(int pos) {
     if (pos > count) {
         // if there are 3 nodes and the pos = 4
         // pos > count + 1 will be false and this function will execute the 
-        // remaining code..which starts from pos-- [Explain in TODO above]
+        // remaining code..which starts from pos-- [Explain in TODO above] (document this)
         delete_end();
         return;
     }
@@ -196,7 +197,7 @@ void delete_at_pos(int pos) {
 
 void delete_all_nodes() {
 // TODO : notes [used while (head->link != NULL) first instead of head == NULL &&
-// when should we use head->link & when should we head != NULL ]
+// when should we use head->link & when should we head != NULL ] (document this)
     if (head == NULL) {
         std::cout << "[delete_all_nodes] : List Is Empty" << std::endl;
         return;
