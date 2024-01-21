@@ -216,6 +216,42 @@ void delete_all_nodes() {
     std::cout << "[delete_all_nodes] : Entire linked list is deleted" << std::endl;
 }
 
+void reverse_linked_list() {
+// TODO : notes [Explain this to my self (the entire process), 
+// and name ptr1..3 with a better ones]
+    if (head == NULL) {
+        std::cout << "[reverse_linked_list] : List Is Empty" << std::endl;
+    }
+    if (head->link == NULL) {
+        return;
+    }
+// if head->link is not NULL then we have more than two nodes in the linked list.
+    Node *ptr1 = head;
+    Node *ptr2 = ptr1->link;
+    Node *ptr3;
+    while(ptr2->link != NULL) {
+    // didn't watch any video or referred any article, solved this my self
+    // took a while to solve but i did.....
+        ptr3 = ptr2->link;
+        ptr2->link = ptr1;
+        ptr1 = ptr2;
+        ptr2 = ptr3;
+    }
+    // TODO : notes [Explain the steps below]
+    ptr2->link = ptr1;
+    head->link = NULL;
+    head = ptr2;
+}
+
 int main (int argc, char *argv[]) {
+    insert_beg(100);
+    insert_end(101);
+    insert_end(102);
+    insert_end(103);
+    insert_end(104);
+    reverse_linked_list();
+    std::cout << std::endl;
+    print_node_data();
+    // output = 104 103 102 101 100
     return 0;
 }
