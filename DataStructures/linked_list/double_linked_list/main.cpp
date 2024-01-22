@@ -15,11 +15,15 @@ Node* _malloc() {
     return (Node *)malloc(sizeof(Node));
 }
 
+void assign(Node* ptr, int data) {
+    ptr->data = data;
+    ptr->prev = NULL;
+    ptr->next = NULL;
+}
+
 void create_head_node(int data) {
     head = _malloc();
-    head->data = data;
-    head->prev = NULL;
-    head->next = NULL;
+    assign(head,data);
     tail = head;
 }
 
@@ -43,9 +47,7 @@ void insert_end(int data) {
     }
     Node* temp = head;
     Node* insert = _malloc();
-    insert->data = data;
-    insert->prev = NULL;
-    insert->next = NULL;
+    assign(insert,data);
     while (temp->next != NULL) {
         temp = temp->next;
     }
@@ -60,9 +62,7 @@ void insert_end_using_tail(int data) {
         return;
     }
     Node* insert = _malloc();
-    insert->data = data;
-    insert->prev = NULL;
-    insert->next = NULL;
+    assign(insert,data);
     tail->next = insert;
     insert->prev = tail;
     tail = insert;
@@ -74,8 +74,7 @@ void insert_beg(int data) {
         return;
     }
     Node* insert = _malloc();
-    insert->data = data;
-    insert->prev = NULL;
+    assign(insert,data);
     insert->next = head;
     head->prev = insert;
     head = insert;
@@ -137,12 +136,81 @@ void delete_end_using_tail() {
     tail->next = NULL;
 }
 
+int count() {
+    if (head == NULL) {
+        return 0;
+    }
+    int count = 0;
+    Node* temp = head;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+void insert_at_pos(int data, int pos) {
+    if (head == NULL) {
+        create_head_node(data);
+        return;
+    }
+    if (pos == 1) {
+        insert_beg(data);
+        return;
+    }
+    if (pos > count()) {
+        insert_end(data);
+        return;
+    }
+    Node* temp = head;
+    Node* insert = _malloc();
+    assign(insert,data);
+    for (int i = 0; i < pos - 2; i++) {
+        temp = temp->next;
+    }
+    insert->prev = temp;
+    insert->next = temp->next;
+    temp->next = insert;
+}
+
+void delete_at_pos(int pos) {
+    if (head == NULL) {
+        std::cout << "[delete_at_pos] : List is empty " << std::endl;
+        return;
+    }
+    if (pos == 1) {
+        delete_beg();
+        return;
+    }
+    if (pos >= count()) {
+        std::cout << "[delete_at_pos] : pos >= count calling delete_end() " << std::endl;
+        delete_end_using_tail();
+        return;
+    }
+    Node* temp = head;
+    for (int i = 0; i < pos - 2; i++) {
+        temp = temp->next;
+    }
+    // if (temp->next->next == NULL) {
+    //     // if list = 1->2->3 and pos == 3 i.e delete the last node
+    //     // or just use if (pos >= count) -> delete_end();
+    //     delete_end_using_tail();
+    //     return;
+    // }
+    Node* del_node = temp->next;
+    temp->next = del_node->next;
+    del_node->next->prev = temp;
+    free(del_node);
+    del_node = nullptr;
+}
+
 int main (int argc, char *argv[]) {
-    insert_end(100);
-    insert_end_using_tail(101);
     insert_beg(99);
-    delete_beg();
-    delete_end_using_tail();
+    insert_end(100);
+    insert_end_using_tail(102);
+    insert_at_pos(105,5);
+    delete_at_pos(2);
+    std::cout << std::endl;
     print_data_values();
     // std::cout << tail->data << std::endl;
     // std::cout << tail->prev->data << std::endl;
