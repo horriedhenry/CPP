@@ -204,15 +204,40 @@ void delete_at_pos(int pos) {
     del_node = nullptr;
 }
 
+void insert_after_given_pos(int data, int pos) {
+    // TODO : Notes [**IMP** : Document how this func() works, all the if statements]
+    if (head == NULL) {
+        std::cout << "[insert_after_given_pos] : List is empty and pos = " << pos << "calling insert_beg() " << std::endl;
+        insert_beg(data);
+        return;
+    }
+    if (head->next == NULL) {
+        std::cout << "[insert_after_given_pos] : head->next == NULL, there is only one node \n and pos = "<< pos << "calling insert_end_using_tail() " << std::endl;
+        insert_end_using_tail(data);
+        return;
+    }
+    Node* temp = head;
+    for (int i = 1; i < pos; i++) {
+        temp = temp->next;
+    }
+    if (temp->next == NULL) {
+        insert_end_using_tail(data);
+        return;
+    }
+    Node* insert = _malloc();
+    assign(insert, data);
+    insert->next = temp->next;
+    insert->prev = temp;
+    temp->next = insert;
+}
+
 int main (int argc, char *argv[]) {
     insert_beg(99);
     insert_end(100);
-    insert_end_using_tail(102);
-    insert_at_pos(105,5);
-    delete_at_pos(2);
+    insert_end(102);
+    insert_end(103);
+    insert_after_given_pos(101, 2);
     std::cout << std::endl;
     print_data_values();
-    // std::cout << tail->data << std::endl;
-    // std::cout << tail->prev->data << std::endl;
     return 0;
 }
