@@ -32,12 +32,13 @@ void print_data_values() {
         std::cout << "[print_data_values] : List is empty " << std::endl;
         return;
     }
+    std::cout << std::endl;
     Node* temp = head;
     while (temp != NULL) {
-        std::cout << temp->data << " ";
+        std::cout << temp->data << "->";
         temp = temp->next;
     }
-    std::cout << std::endl;
+    std::cout << "NULL" << std::endl;
 }
 
 void insert_end(int data) {
@@ -231,13 +232,37 @@ void insert_after_given_pos(int data, int pos) {
     temp->next = insert;
 }
 
+void reverse_list() {
+    // First Try
+    // TODO : Notes [Document process, implement other way to reverse_list].
+    if (head == NULL) {
+        std::cout << "[reverse_list] : List is empty" << std::endl;
+        return;
+    }
+    if (head->next == NULL) {
+        return;
+    }
+    Node* iterator = head;
+    Node* next_node;
+    while (iterator != NULL) {
+        next_node = iterator->next;
+        Node* swap = iterator->next;
+        iterator->next = iterator->prev;
+        iterator->prev = swap;
+        iterator = next_node;
+    }
+    Node* temp = head;
+    head = tail;
+    tail = temp;
+}
+
 int main (int argc, char *argv[]) {
-    insert_beg(99);
-    insert_end(100);
-    insert_end(102);
-    insert_end(103);
-    insert_after_given_pos(101, 2);
-    std::cout << std::endl;
+    insert_end(0);
+    insert_end(1);
+    insert_end(2);
+    insert_end(3);
+    reverse_list();
+    reverse_list();
     print_data_values();
     return 0;
 }
