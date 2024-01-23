@@ -51,40 +51,70 @@ void print_data() {
         std::cout << "[print_data] : List is empty " << std::endl;
         return;
     }
-    // if (head == tail) {
-    //     std::cout << std::endl;
-    //     std::cout << head->data << "->NULL"<< std::endl;
-    //     return;
-    // }
     std::cout << std::endl;
     Node* iterator = head;
-    // while (iterator->next != head) {
-    //     std::cout << iterator->data << "->";
-    //     iterator = iterator->next;
-    // }
-    do {
-        // well this worked out (no it did not)(yes it did)
-        // say we have 2 nodes 1->2
-        // first iterator->data prints 1 and then moves the iterator to next
-        // node which is 2 and 2->next == head so the loop breaks
-        // and just prints 1->
-        // so we just print the tail node at the very last
-        // but the good thing is that we dont need a condition to check if there
-        // is only one node and have a while loop and print the tail data at the
-        // end this do while loop is just better
+    while (iterator != tail) {
         std::cout << iterator->data << "->";
         iterator = iterator->next;
-    } while(iterator->next != head);
+    }
+    // TODO : Document the error [do while]
+    // BUG :-
+    // do while is not working , found the bug when trying to reverse_list 
+    // when there is only one node
+    // with a do while loop the output is 1->1->NULL
+    // with a while loop it's just 1->NULL
+
+    // do {
+    //     // well this worked out (no it did not)(yes it did)
+    //     // say we have 2 nodes 1->2
+    //     // first iterator->data prints 1 and then moves the iterator to next
+    //     // node which is 2 and 2->next == head so the loop breaks
+    //     // and just prints 1->
+    //     // so we just print the tail node at the very last
+    //     // but the good thing is that we dont need a condition to check if there
+    //     // is only one node and have a while loop and print the tail data at the
+    //     // end this do while loop is just better
+    //     std::cout << iterator->data << "->";
+    //     iterator = iterator->next;
+    // } while(iterator->next != head);
     std::cout << tail->data << "->";
     std::cout << "NULL" << std::endl;
 }
 
+void reverse_list() {
+    // TODO : Document [iterator != tail]
+    if (head == NULL) {
+        std::cout << "[reverse_list] : List is empty " << std::endl;
+        return;
+    }
+    if (head->next == head) {
+        return;
+    }
+    Node *iterator = head;
+    Node *next;
+    Node *swap;
+    while (iterator != tail) {
+        next = iterator->next;
+        swap = iterator->next;
+        iterator->next = iterator->prev;
+        iterator->prev = swap;
+        iterator = next;
+    }
+    swap = iterator->next;
+    iterator->next = iterator->prev;
+    iterator->prev = swap;
+    swap = head;
+    head = tail;
+    tail = swap;
+}
+
 int main (int argc, char *argv[]) {
     insert_end(1);
-    insert_end(2);
-    insert_end(3);
-    insert_end(4);
-    insert_end(5);
+    // insert_end(2);
+    // insert_end(3);
+    // insert_end(4);
+    // insert_end(5);
+    reverse_list();
     print_data();
     // std::cout << head->data << std::endl;
     // std::cout << head->prev->data << std::endl;
