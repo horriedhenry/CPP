@@ -122,11 +122,146 @@ void insert_beg(int data) {
     tail->next = head;
 }
 
+int count() {
+    if (head == NULL) {
+        return 0;
+    }
+    if (head == tail) {
+        return 1;
+    }
+    int count = 0;
+    Node *iterator = head;
+    while (iterator->next != head) {
+        count ++;
+        iterator = iterator->next;
+    }
+    count++; // when iterator reaches last node iterator->next == head 
+    // but the loop will not increment the count by 1 for the last node
+    // so after the loop increment count by 1 for the last node.
+    return count;
+}
+
+void insert_at_pos(int data, int pos) {
+    if (head == NULL) {
+        std::cout << "[insert_at_pos] : List is empty calling insert_beg " << std::endl;
+        insert_beg(data);
+        return;
+    }
+    if (pos == 1) {
+        insert_beg(data);
+        return;
+    }
+    int count_ = count();
+    if (pos > count_) {
+        std::cout << "[insert_at_pos] : pos : " << pos << " > " << "count : " << count_ << " , calling insert_end " << std::endl;
+        insert_end(data);
+        return;
+    }
+    Node* insert = _malloc();
+    assign(insert, data);
+    Node* iterator = head;
+    for (int i = 1; i < pos - 1; i++) {
+        iterator = iterator->next;
+    }
+    iterator->next->prev = insert;
+    insert->next = iterator->next;
+    insert->prev = iterator;
+    iterator->next = insert;
+}
+
+void delete_beg() {
+/*
+
+if (head == tail) {
+    head = nullptr;
+    tail = nullptr;
+    free(head);
+    free(tail);
+}
+// if (head->next == tail) {
+//     tail->next = head->prev;
+//     tail->prev = head->next;
+//     free(head);
+//     head = nullptr;
+//     head = tail;
+// }
+
+TODO : Document why these two conditions don't work
+TODO : This is not working. -> REASON : forgot to add return statement.
+
+*/
+    // TODO : Document delete_beg (include errors).
+    if (head == NULL) {
+        std::cout << "[delete_beg] : List is empty " << std::endl;
+        return;
+    }
+    if (head == tail) {
+        free(head);
+        head = nullptr;
+        tail = nullptr;
+        return; // forgot to add return statement and the code below
+        // executed, fucked me up for a while.
+        // KEY : DO NOT FORGET RETURN STATEMENTS.
+    }
+    Node* next_node_after_head = head->next;
+    tail->next = next_node_after_head;
+    next_node_after_head->prev = tail;
+    free(head);
+    head = nullptr;
+    head = next_node_after_head;
+}
+
+void delete_end() {
+    if (head == NULL) {
+        std::cout << "[delete_end] : List is empty " << std::endl;
+        return;
+    }
+    if (head == tail) {
+        free(head);
+        head = nullptr;
+        tail = nullptr;
+        return; // return statement is important here, You Know why.
+    }
+    if (head->next == tail) {
+        head->next = tail->next;
+        head->prev = tail->prev;
+        free(tail);
+        tail = nullptr;
+        tail = head;
+        return; // this is important 🫠
+    }
+    Node *temp_tail = tail->prev;
+    temp_tail->next = head;
+    free(tail);
+    tail = nullptr;
+    tail = temp_tail;
+    temp_tail = nullptr;
+}
+
+void delete_at_pos(int pos) {
+    // TODO
+    if (head == NULL) {
+        std::cout << "[delete_at_pos] : List is empty " << std::endl;
+        return;
+    }
+}
+
+void delete_entire_list() {
+    // TODO
+    if (head == NULL) {
+        std::cout << "[delete_entire_list] : List is empty " << std::endl;
+        return;
+    }
+}
+
 int main (int argc, char *argv[]) {
-    insert_beg(2);
-    insert_beg(1);
+    insert_beg(0);
+    insert_end(1);
+    insert_end(2);
+    insert_end(3);
+    insert_end(4);
+    delete_end();
+    delete_beg();
     print_data();
-    // std::cout << head->data << std::endl;
-    // std::cout << head->prev->data << std::endl;
     return 0;
 }
