@@ -108,13 +108,23 @@ void reverse_list() {
     tail = swap;
 }
 
+void insert_beg(int data) {
+    if (head == NULL) {
+        create_head_node(data);
+        return;
+    }
+    Node* insert = _malloc();
+    assign(insert, data);
+    insert->prev = tail;
+    insert->next = head;
+    head->prev = insert;
+    head = insert;
+    tail->next = head;
+}
+
 int main (int argc, char *argv[]) {
-    insert_end(1);
-    // insert_end(2);
-    // insert_end(3);
-    // insert_end(4);
-    // insert_end(5);
-    reverse_list();
+    insert_beg(2);
+    insert_beg(1);
     print_data();
     // std::cout << head->data << std::endl;
     // std::cout << head->prev->data << std::endl;
