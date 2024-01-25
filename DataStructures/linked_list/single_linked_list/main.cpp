@@ -48,7 +48,6 @@ void insert_end(int data) {
     next->data = data;
     next->link = NULL;
     while (temp->link != NULL) {
-        // TODO : notes [whey is temp->link used] (document this)
         temp = temp->link;
     }
     temp->link = next;
