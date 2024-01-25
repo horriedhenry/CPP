@@ -239,29 +239,70 @@ void delete_end() {
 }
 
 void delete_at_pos(int pos) {
-    // TODO
     if (head == NULL) {
         std::cout << "[delete_at_pos] : List is empty " << std::endl;
         return;
     }
+    Node* del = head;
+    if (pos == 1) {
+        delete_beg();
+        return;
+    }
+    int count_ = count();
+    if (pos > count_) {
+        std::cout << "[delete_at_pos] : pos > no of nodes present, calling delete_end " << std::endl;
+        delete_end();
+        return;
+    }
+    for (int i = 1; i < pos; i++) {
+        del = del->next;
+    }
+    if (del->next == head) {
+        delete_end();
+        return;
+    }
+    del->prev->next = del->next;
+    del->next->prev = del->prev;
+    free(del);
+    del = nullptr;
 }
 
 void delete_entire_list() {
-    // TODO
     if (head == NULL) {
         std::cout << "[delete_entire_list] : List is empty " << std::endl;
         return;
     }
+    if (head == tail) {
+        free(head);
+        head = nullptr;
+        tail = nullptr;
+        return;
+    }
+    Node* next;
+    // head is the iterator.
+    while (head != tail) {
+        next = head->next;
+        free(head);
+        head = nullptr;
+        head = next;
+    }
+    free(head);
+    tail = nullptr;
+    head = nullptr;
+    // or 
+    // free(tail);
+    // tail = nullptr;
+    // head = nullptr;
 }
 
 int main (int argc, char *argv[]) {
-    insert_beg(0);
     insert_end(1);
     insert_end(2);
     insert_end(3);
     insert_end(4);
-    delete_end();
-    delete_beg();
+    delete_at_pos(4);
+    print_data();
+    delete_entire_list();
     print_data();
     return 0;
 }
