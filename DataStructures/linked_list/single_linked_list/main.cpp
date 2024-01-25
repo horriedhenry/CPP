@@ -130,7 +130,6 @@ int count_nodes() {
 }
 
 void insert_at_pos(int data, int pos) {
-    // TODO : Notes on how insert_at_pos() work [pos--, pos - 1] (document this)
     if (head == NULL) {
         std::cout << "[insert_at_pos] : List Is Empty" << std::endl;
         return;
@@ -148,16 +147,15 @@ void insert_at_pos(int data, int pos) {
         insert_end(data);
         return;
     }
-    pos--;
     Node* new_node = _malloc();
     new_node->data = data;
     new_node->link = NULL;
-    Node* temp = head;
-    for (int i = 0; i < pos - 1; i++) {
-        temp = temp->link;
+    Node* iterator = head;
+    for (int i = 1; i < pos - 1; i++) {
+        iterator = iterator->link;
     }
-    new_node->link = temp->link;
-    temp->link = new_node;
+    new_node->link = iterator->link;
+    iterator->link = new_node;
 }
 
 void delete_at_pos(int pos) {
@@ -243,14 +241,11 @@ void reverse_linked_list() {
 }
 
 int main (int argc, char *argv[]) {
-    insert_beg(100);
-    insert_end(101);
-    insert_end(102);
-    insert_end(103);
-    insert_end(104);
-    reverse_linked_list();
+    insert_end(1);
+    insert_end(2);
+    insert_end(4);
+    insert_at_pos(3,3);
     std::cout << std::endl;
     print_node_data();
-    // output = 104 103 102 101 100
     return 0;
 }
