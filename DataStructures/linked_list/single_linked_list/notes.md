@@ -439,3 +439,128 @@ iterator->link = new_node;
 
 - And the other edge cases in `insert_at_pos` are self explanatory.
 
+# Delete node at given pos
+
+- Current list
+
+```text
+     1            2           3           4
++--------+  +--------+  +---------+  +-----------+
+| 10 | b |->| 11 | d |->| 13  | c |->| 12 | NULL |-> NULL
++--------+  +--------+  +---------+  +-----------+
+    a          b             d             c       
+  head
+```
+
+- delete node at `pos 3`.
+- result should be this list...
+
+```text
+     1            2           3
++--------+  +---------+  +-----------+
+| 10 | b |->| 11  | c |->| 12 | NULL |-> NULL
++--------+  +---------+  +-----------+
+    a           b             c       
+  head
+```
+
+#### Approach
+
+- Go the previous node of the given `pos` , if `pos = 3` then go to the `3 - 1` node, and then update the `link` part of that `previous node` with the link part of the `next node`. If `pos = 3` go to `2nd` node and update `link` of that node with the `link` of the `3rd` node.
+- This is simiar to `insert_at_pos`, instead of inserting a node we delete it.
+
+```c++
+
+Node* del = iterator->link; // the node we want to delete
+iterator->link = iterator->link->link; // update the previous node link with what ever the node we want to delete is pointing to.
+// or
+iterator->link = del->link;
+
+```
+
+#### Implementation
+
+```c++
+void delete_at_pos(int pos) {
+    if (head == NULL) {
+        std::cout << "[delete_at_pos] : List Is Empty" << std::endl;
+        return;
+    }
+    if (pos == 1) {
+        delete_beg();
+        return;
+    }
+    if (pos < 1) {
+        std::cout << "[delete_at_pos] : Indexing starts at 1 , invalid pos .. cannot delete" << std::endl;
+        return;
+    }
+    int count = count_nodes();
+    if (pos > count) {
+        // if there are 3 nodes and the pos = 4
+        // pos > count + 1 will be false and this function will execute the 
+        delete_end();
+        return;
+    }
+    Node* iterator = head;
+    for (int i = 1; i < pos - 1; i++) {
+        iterator = iterator->link;
+    }
+    Node *del = iterator->link;
+    iterator->link = iterator->link->link;
+    free(del);
+    del=nullptr;
+}
+```
+
+#### Reason for using `pos - 1`
+
+- If we dont use `pos - 1` the `iterator` will go to the node we want to delete, but if we do go to the node we want to delete and just delete it the `previous` node before the given `pos` will not be there any more and if there is a `node` after given `pos` we will also lose that because the `node` at the given `pos` has the link to the `next node`.
+- So we go to the `previous node` of the given `pos` and update the `link` part of that `previous node` to point to what ever the node at `given pos` is point to using..
+- If we don't use `i = 1` and instead use `i = 0` then we have to do `pos - 2` instead of `pos - 1`
+
+#### IMP
+
+- **IMP** The `iterator`  starts at `head` node so when the `iterator` enters the `for loop` and executes for the first time it will reach to `2nd` node..
+- **IMP** i.e for the `1st` iteration it will reach `2nd` node and for the `2nd` iteration it will reach `3rd` node..and so..on..
+- **IMP** If `pos = 3` we should go the the `2nd` node so we just have to `iterate` the `for loop` for `one time` to go to the `2nd` node, and if `pos = 4` go to `3rd` node and to go to that `for loop` should run for `two times` to reach `3rd` node.
+- **VVIMP** The `iterator` is already at the `first node` so `1` iteration is gonna move the `iterator` to `2nd` node and `2` iterations are gonna move the `iterator` to `3rd` node. so the no.of `iterations` should be equal to `pos - 1` if the `iterator` will start the `for loop` with `i = 1`, and if `i = 0` then we should use `pos - 2`.
+
+- Say we want to delete the `3rd` node from a list , and the list has a total of `4` nodes.
+- If we use `i = 0` and the just use `3 - 1` (pos - 1) then the iterator starts at `0` goes till `2` so the loop runs `3 times` but the `loop` should only run for `1 time` to reach to `2nd` node.
+- For that to work we should use `for (int i = 0; i < pos - 2; i++)` condition .
+- If we apply the above condition for `pos = 3` the loop only runs for `1 time` to reach to `2nd` node, and that is what we want.
+- Else we can just use `for (int i = 1; i < pos - 1; i++)`, this also works fine
+- When ever we are trying to insert a `node` at a certain `pos` we should use this condition to go the `node` before the given `pos`.
+
+# Delete entire linked list.
+
+### Approach
+
+- Iterate through each node and while doing that keep track of `next` node and delete the current node the `iterator` is at and after deleting it set the `iterator` to point to `next` node, do this until there is no node left.
+- We should keep looping till the `iterator == NULL` i.e use `while(iterator != NULL)` , while the condition is true.. keep track of `next` using `next = iterator->link` and then delete the node using `free(iterator)` and `iterator = nullptr` and then assign `iterator` to `next` node, keep repeating these steps until `iterator == NULL`.
+
+### Implementation
+
+```c++
+void delete_all_nodes() {
+    if (head == NULL) {
+        std::cout << "[delete_all_nodes] : List Is Empty" << std::endl;
+        return;
+    }
+    if (head->link == NULL) {
+        free(head);
+        head = NULL;
+    }
+    Node *next;
+    while(head != NULL) {
+        next = head->link;
+        free(head);
+        head = NULL;
+        head = next;
+    }
+    std::cout << "[delete_all_nodes] : Entire linked list is deleted" << std::endl;
+}
+```
+
+- I used `head` pointer as an `iterator`, and `next` to keep track of next node.
+- If we use `head->link != NULL` then the `iterator` will reach the `last node` at stop there, if so we have to again after the while loop do `free(head)` and then `head = nullptr` to complete the process, instead of that just use `head != NULL`, this is the same approach that we use to `print_node_data` this condition makes sure that we go through each and every node even the `last` one. 

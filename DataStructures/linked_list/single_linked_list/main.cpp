@@ -159,8 +159,6 @@ void insert_at_pos(int data, int pos) {
 }
 
 void delete_at_pos(int pos) {
-    // TODO : notes about delete_at_pos() [pos--,pos - 1] in case of 
-    // delete_at_pos() (document this) 
     if (head == NULL) {
         std::cout << "[delete_at_pos] : List Is Empty" << std::endl;
         return;
@@ -173,28 +171,28 @@ void delete_at_pos(int pos) {
         std::cout << "[delete_at_pos] : Indexing starts at 1 , invalid pos .. cannot delete" << std::endl;
         return;
     }
-    int count = count_nodes();
-    if (pos > count) {
-        // if there are 3 nodes and the pos = 4
-        // pos > count + 1 will be false and this function will execute the 
-        // remaining code..which starts from pos-- [Explain in TODO above] (document this)
-        delete_end();
-        return;
+    // int count = count_nodes();
+    // if (pos > count) {
+    //     // if there are 3 nodes and the pos = 4
+    //     // pos > count + 1 will be false and this function will execute the 
+    //     delete_end();
+    //     return;
+    // }
+    Node* iterator = head;
+    for (int i = 1; i < pos - 1; i++) {
+        iterator = iterator->link;
+        if (iterator->link == NULL) {
+            std::cout << "Reached the end of the list, pos > the no.of nodes.. returning.." << std::endl;
+            return;
+        }
     }
-    pos--;
-    Node* temp = head;
-    for (int i = 0; i < pos - 1; i++) {
-        temp = temp->link;
-    }
-    Node *del = temp->link;
-    temp->link = temp->link->link;
+    Node *del = iterator->link;
+    iterator->link = iterator->link->link;
     free(del);
     del=nullptr;
 }
 
 void delete_all_nodes() {
-// TODO : notes [used while (head->link != NULL) first instead of head == NULL &&
-// when should we use head->link & when should we head != NULL ] (document this)
     if (head == NULL) {
         std::cout << "[delete_all_nodes] : List Is Empty" << std::endl;
         return;
@@ -245,6 +243,7 @@ int main (int argc, char *argv[]) {
     insert_end(2);
     insert_end(4);
     insert_at_pos(3,3);
+    delete_at_pos(5);
     std::cout << std::endl;
     print_node_data();
     return 0;
