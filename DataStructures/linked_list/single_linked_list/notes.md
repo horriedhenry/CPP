@@ -14,15 +14,17 @@ typedef struct Node {
 - Each node can store any type of data or n nbr of data points but should point to next node or if there are none point to NULL.
 - `struct Node *link` the link part of the node stores the address of 'Node' type. In this case it stores the address of next node.
 
-### Create a Simple Linked List
+# Create a Simple Linked List
 
 ```c++
 Node *head = (Node *)malloc(sizeof(Node));
 head->data = 1;
 head->link = NULL;
+
 Node *second = (Node *)malloc(sizeof(Node));
 second->data = 2;
 second->link = NULL;
+
 std::cout << head->data << std::endl; // print data value of first node
 std::cout << second->data << std::endl; // print data value of second node
 ```
@@ -86,6 +88,7 @@ new->link = NULL;
 - Insert `c` at the end of the list.
 
 ### Method
+
 - Traverse the list until the iterator finds a node in which the link part is `NULL`.
 ```c++
 void insert_end(int data) {
@@ -126,13 +129,13 @@ void insert_end(int data) {
 
 - All the above code does is that iterate till the last node and update the link part with the new node (insert) `b->link = c`.
 
-#### While Loop condition
+### While Loop condition
 
 - if we don't use `iterator->next != NULL` and instead use `iterator != NULL`.
 - say we used the second one, we will reach the last node and `iterator` would not be null even we reached the last node, the loop will keep going for one more step and in the last step `iterator` will be `NULL` and if we try to do `iterator-link = insert` we are trying to do `NULL->link = c` , null does not exist and we are trying to access it , so this throws a `segmentation fault`.
 - so use `iterate->next != NULL` to stop at the last node.
 
-#### Result
+### Result
 
 ```text
 +-------+  +--------+  +-----------+
@@ -157,7 +160,7 @@ void insert_end(int data) {
 ```
 - should print `1 2 3`...
 
-#### Method
+### Method
 
 - Iterate through each node until there is no node left to traverse and for every iteration print the data of the current node we are at.
 - As mentioned use `iterator != NULL` as this will iterate the entire list and when it reaches the last node and try to do `iterator->link` this will be `NULL` so the while loop will break.
@@ -189,7 +192,7 @@ while (iterator->link != NULL) {
 std::cout << iterator->data << " " << std::endl;
 ```
 
-### Count no.of nodes
+## Count no.of nodes
 
 - Current list....
 
@@ -202,7 +205,7 @@ std::cout << iterator->data << " " << std::endl;
 
 - return the no.of nodes..i.e `3` in this case.
 
-#### Method
+### Method
 
 - Iterate through the entire list until there is no node left to traverse.
 - As mentioned above we should use `iterate != NULL` with a `while` loop so that we don't miss any node, for every iteration increate the `count` by `1`. 
@@ -264,7 +267,7 @@ return count;
   head
 ```
 
-#### Approach
+### Approach
 
 - `pos = 3`, i.e insert the new node at `pos = 3` and by looking at the result we know what to update in order to get the result we want.
 - By looking at the result, let's check what got updated, the `link` part of the node before `pos 3` is updated with the address of the new node, and the `link` part of the new node i.e `d` is updated with the `link` part of the node before that i.e `pos 2` which was `c`.
@@ -353,7 +356,7 @@ return count;
   head
 ```
 
-#### Implementation
+### Implementation
 
 ```c++
 void insert_at_pos(int data, int pos) {
@@ -464,7 +467,7 @@ iterator->link = new_node;
   head
 ```
 
-#### Approach
+### Approach
 
 - Go the previous node of the given `pos` , if `pos = 3` then go to the `3 - 1` node, and then update the `link` part of that `previous node` with the link part of the `next node`. If `pos = 3` go to `2nd` node and update `link` of that node with the `link` of the `3rd` node.
 - This is simiar to `insert_at_pos`, instead of inserting a node we delete it.
@@ -478,7 +481,7 @@ iterator->link = del->link;
 
 ```
 
-#### Implementation
+### Implementation
 
 ```c++
 void delete_at_pos(int pos) {
@@ -512,13 +515,13 @@ void delete_at_pos(int pos) {
 }
 ```
 
-#### Reason for using `pos - 1`
+### Reason for using `pos - 1`
 
 - If we dont use `pos - 1` the `iterator` will go to the node we want to delete, but if we do go to the node we want to delete and just delete it the `previous` node before the given `pos` will not be there any more and if there is a `node` after given `pos` we will also lose that because the `node` at the given `pos` has the link to the `next node`.
 - So we go to the `previous node` of the given `pos` and update the `link` part of that `previous node` to point to what ever the node at `given pos` is point to using..
 - If we don't use `i = 1` and instead use `i = 0` then we have to do `pos - 2` instead of `pos - 1`
 
-#### IMP
+### IMP
 
 - **IMP** The `iterator`  starts at `head` node so when the `iterator` enters the `for loop` and executes for the first time it will reach to `2nd` node..
 - **IMP** i.e for the `1st` iteration it will reach `2nd` node and for the `2nd` iteration it will reach `3rd` node..and so..on..
@@ -564,3 +567,252 @@ void delete_all_nodes() {
 
 - I used `head` pointer as an `iterator`, and `next` to keep track of next node.
 - If we use `head->link != NULL` then the `iterator` will reach the `last node` at stop there, if so we have to again after the while loop do `free(head)` and then `head = nullptr` to complete the process, instead of that just use `head != NULL`, this is the same approach that we use to `print_node_data` this condition makes sure that we go through each and every node even the `last` one. 
+
+# Reverse the list.
+
+## Initial and Result state of LL.
+
+- Initial state.
+
+```text
+
+     1            2           3           4
++--------+  +--------+  +---------+  +-----------+
+| 10 | b |->| 11 | c |->| 12  | d |->| 13 | NULL |-> NULL
++--------+  +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head
+
+```
+
+- Result state (Reverse version of the list).
+
+```text
+
+     1            2           3           4
++-----------+  +--------+  +---------+  +--------+
+| 10 | NULL |<-| 11 | a |<-| 12  | b |<-| 13 | c |
++-----------+  +--------+  +---------+  +--------+
+     a              b            c           d       
+                                           head
+```
+
+- OR
+
+```text
+
+     1            2           3           4
++--------+  +--------+  +---------+  +-----------+
+| 13 | c |->| 12 | d |->| 11  | a |->| 10 | NULL |-> NULL
++--------+  +--------+  +---------+  +-----------+
+     d           c            b           a       
+  head
+
+```
+
+### Approach (two pointer).
+- Let's take two pointers `first` and `second` and initialize `first` with `head`  and `second` with `first->link` , and then make `second->link` to point to `first`, this will result in...
+
+```text
+
+     1            2   
++--------+   +--------+
+| 10 | b |<->| 11 | a |
++--------+   +--------+
+     a           b    
+  head         second
+  first      
+
+```
+
+- Two pointer approach just make `2nd` node point to `head` or `first`. we just cannot reach the next node after `second` we just lost all the nodes after the `second` one..so this approach does not work.
+
+### Three pointer approach.
+
+- Take three pointers `first` `second` and `next`, to solve the problem with `2 pointer approach` we keep track of the next pointer after `second` node using `next = second->link`. 
+- And then we do what we did in the `2 pointer approach`, i.e update the `second->link` to `first` pointer , and then move the `first` and `second` pointers forwad.
+- The way we move `first` and `second` forwad is remember we are keeping track of the `next` node after `second` node, what we do is move the `first` pointer to where ever the `second` node was using `first = second` and move `second` to where ever `next` was at using `second = next`.
+
+### Dry run the above approach with the list
+
+- Initial list, with `three pointers`, `first = head` and `second = first->link` and `next = second->link`.
+
+```text
+
+     1            2           3           4
++--------+  +--------+  +---------+  +-----------+
+| 10 | b |->| 11 | c |->| 12  | d |->| 13 | NULL |-> NULL
++--------+  +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head        second        next
+  first
+
+```
+
+- do `second->link = first`
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +-----------+
+| 10 | b |<->| 11 | a |->| 12  | d |->| 13 | NULL |-> NULL
++--------+   +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head        second        next
+  first
+
+```
+
+- Then move `first` , `second` and `next` pointers one step forwad by doing `first = second` and `second = next` and `next = second->link`...and then just repet the steps.
+
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +-----------+
+| 10 | b |<->| 11 | a |<-| 12  | d |->| 13 | NULL |-> NULL
++--------+   +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head         first       second        next
+
+
+```
+
+- do `second->link = first`
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +-----------+
+| 10 | b |<->| 11 | a |<-| 12  | b |->| 13 | NULL |-> NULL
++--------+   +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head         first       second        next
+
+
+```
+
+- Then move `first` , `second` and `next` pointers one step forwad by doing `first = second` and `second = next` and `next = second->link`.
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +-----------+
+| 10 | b |<->| 11 | a |<-| 12  | b |->| 13 | NULL |-> NULL
++--------+   +--------+  +---------+  +-----------+
+     a           b            c           d       
+  head                      first       second        next = NULL
+
+```
+
+- do `second->link = first`
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +--------+
+| 10 | b |<->| 11 | a |<-| 12  | b |<-| 13 | c |
++--------+   +--------+  +---------+  +--------+
+     a           b            c           d       
+  head                      first       second        next = NULL
+
+```
+
+- Then move `first` , `second` and `next` pointers one step forwad .
+
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +--------+
+| 10 | b |<->| 11 | a |<-| 12  | b |<-| 13 | c |->NULL
++--------+   +--------+  +---------+  +--------+
+     a           b            c           d       
+  head                                  first       second=NULL        next = NULL
+
+```
+
+- Now `second = NULL` so we cannot do `second->link = first` coz `second` is not pointing to any node, and we cannot move any further in the list so we loop with this condition `while (second != NULL)` do the steps mentioned above.
+- If we look at the result... we will have a better idea what we should do ...
+- Result state (Reverse version of the list).
+
+```text
+
+     1            2           3           4
++-----------+  +--------+  +---------+  +--------+
+| 10 | NULL |<-| 11 | a |<-| 12  | b |<-| 13 | c |
++-----------+  +--------+  +---------+  +--------+
+     a              b            c           d       
+                                           head
+```
+
+- current state..
+
+```text
+
+     1            2           3           4
++--------+   +--------+  +---------+  +--------+
+| 10 | b |<->| 11 | a |<-| 12  | b |<-| 13 | c |
++--------+   +--------+  +---------+  +--------+
+     a           b            c           d       
+  head                                  first       second=NULL        next = NULL
+
+```
+
+- If we want the current list to look like the result.. once we break out of the loop what we should do is make `first` pointer `head` as that is the node we `stopped` at and if we want to reverse the list that should be `head`.
+- If we want to make `a` as the `last node` then `a->link` as `head` is pointing to `a` we do `head->link = NULL` and then assign `d` as `head` using `head = first` , `first` is pointing to last node, and if we want to reverse the list `first` should be `last` and `last` should be `first`.
+
+- do `head->link = NULL` and `head = first`. And the result will look like this..
+
+```text
+
+     1            2           3           4
++-----------+  +--------+  +---------+  +--------+
+| 10 | NULL |<-| 11 | a |<-| 12  | b |<-| 13 | c |
++-----------+  +--------+  +---------+  +--------+
+     a              b            c           d       
+                                           head
+```
+- Or
+
+```text
+     1            2           3           4
++--------+  +--------+  +---------+  +-----------+
+| 13 | c |->| 12 | d |->| 11  | a |->| 10 | NULL |-> NULL
++--------+  +--------+  +---------+  +-----------+
+     d           c            b           a       
+  head
+```
+
+### Implementation
+
+```c++
+void reverse_linked_list() {
+    if (head == NULL) {
+        std::cout << "[reverse_linked_list] : List Is Empty" << std::endl;
+    }
+    if (head->link == NULL) {
+        return;
+    }
+    // if head->link is not NULL then we have more than two nodes in the linked list.
+    Node *first = head;
+    Node *second = first->link;
+    Node *next;
+    while(second != NULL) {
+    // changed from second->link != NULL , go to know about this approach while documenting.
+    // didn't watch any video or referred any article, solved this my self
+    // took a while to solve but i did..
+        next = second->link;
+        second->link = first;
+        first = second;
+        second = next;
+    }
+    head->link = NULL;
+    head = first;
+    first = nullptr; // make first to point to nothing.
+}
+```
+
+- `head->link = NULL` as head will become the `last node`, the link part of last node should be NULL.
+- `head = first` first was pointing to the `last node` when `second == NULL` and the loop got terminated.
+

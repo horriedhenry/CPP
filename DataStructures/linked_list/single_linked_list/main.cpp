@@ -212,8 +212,6 @@ void delete_all_nodes() {
 }
 
 void reverse_linked_list() {
-// TODO : notes [Explain this to my self (the entire process), 
-// and name ptr1..3 with a better ones]
     if (head == NULL) {
         std::cout << "[reverse_linked_list] : List Is Empty" << std::endl;
     }
@@ -221,21 +219,25 @@ void reverse_linked_list() {
         return;
     }
 // if head->link is not NULL then we have more than two nodes in the linked list.
-    Node *ptr1 = head;
-    Node *ptr2 = ptr1->link;
-    Node *ptr3;
-    while(ptr2->link != NULL) {
+    Node *first = head;
+    Node *second = first->link;
+    Node *next;
+    while(second != NULL) {
+        // changed from second->link != NULL
     // didn't watch any video or referred any article, solved this my self
     // took a while to solve but i did.....
-        ptr3 = ptr2->link;
-        ptr2->link = ptr1;
-        ptr1 = ptr2;
-        ptr2 = ptr3;
+        next = second->link;
+        second->link = first;
+        first = second;
+        second = next;
     }
-    // TODO : notes [Explain the steps below]
-    ptr2->link = ptr1;
     head->link = NULL;
-    head = ptr2;
+    head = first; // check notes.md (in reverse_linked_list)
+    // used these 3 lines before
+    // second->link = first;
+    // head->link = NULL;
+    // head = second;
+    first = nullptr;
 }
 
 int main (int argc, char *argv[]) {
@@ -243,8 +245,8 @@ int main (int argc, char *argv[]) {
     insert_end(2);
     insert_end(4);
     insert_at_pos(3,3);
-    delete_at_pos(5);
     std::cout << std::endl;
+    reverse_linked_list();
     print_node_data();
     return 0;
 }
