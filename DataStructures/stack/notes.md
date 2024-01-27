@@ -134,3 +134,150 @@ t=-1
 - `pop()` , `top` will be `-1` so just return, because stack is empty there is no element to pop
 - This is array Implementation of stack, and i've tried my best, to explain why we should use `top++` and then push the element, maybe when i know how to frame a sentence properly, i will make this doc better. But for now that's the english i got.
 
+
+# Linked List Implementation of stack. 
+
+### Stack struct
+
+```c++
+typedef struct Stack {
+    struct Stack* next;
+    int data;
+} Stack;
+
+Stack top = NULL; // as top is not pointing to anything, stack is empty.
+```
+
+- Linked List is better than array, because array will have size limit where as with Linked list we can have as many nodes as we want.
+- When it comes to operatoins on a stack.. they look like this...
+
+### stack Operations with Linked List (single) .
+
+- push()  - when pushing to Linked list always `insert at beginning`, this perfecly folows the `LIFO`, if we insert at end then when we do `pop` operation we will loose the link to previous node. As a single link link only points to next node, we should not use `insert at end`.
+- pop()   - remove `head` node and assign the new head use for the node next to `head`. or we can use `top` to point to the first node, instead of naming it `head`.
+- top()   - return `top->data`
+- empty() - if `top == NULL` then return `true` else return `false`.
+- erase() - we can use `erase` to delete the entire stack to free memory, this is just delete all nodes in the linked list.
+
+### Implementation
+
+```c++
+#include <cstdlib>
+#include <iostream>
+
+typedef struct Stack {
+    struct Stack* next;
+    int data;
+} Stack;
+
+Stack* top = NULL; // top points to the latest node inserted.
+
+Stack* _malloc() {
+    return (Stack *)malloc(sizeof(Stack));
+}
+
+void assign(Stack* ptr, int x) {
+    ptr->next = NULL;
+    ptr->data = x;
+}
+
+void push(int x) {
+    if (top == NULL) {
+        Stack* push_ = _malloc();
+        assign(push_,x);
+        top = push_;
+        return;
+    }
+    Stack* push = _malloc();
+    assign(push,x);
+    push->next = top;
+    top = push;
+}
+
+void pop() {
+    if (top == NULL) {
+        std::cout << "[pop] : stack is empty" << std::endl;
+        return;
+    }
+    Stack* next = top->next;
+    free(top);
+    top = nullptr;
+    top = next;
+}
+
+int Top() {
+    if (top == NULL) {
+        std::cout << "[Top] : stack is empty" << std::endl;
+        return -1;
+    }
+    return top->data;
+}
+
+bool empty() {
+    if (top == NULL) {
+        return true;
+    }
+    return false;
+}
+
+void erase() {
+    if (top == NULL) {
+        return;
+    }
+    Stack* del = top;
+    while (del != NULL) {
+        top = del->next;
+        free(del);
+        del = nullptr;
+        del = top;
+    }
+}
+```
+
+### This is how it looks...
+
+- if `top == NULL` then stack is empty.
+- `push(1)` results in...
+
+```text
++-----------+
+| 1  | NULL |->NULL
++-----------+
+     a       
+    top
+```
+
+- `push(2)` to the stack would be...
+
+```text
++--------+  +-----------+ 
+| 2  | a |->| 1  | NULL |
++--------+  +-----------+
+     b              a       
+    top
+```
+
+- `push(3)` to the stack would be..
+
+```text
++--------+  +--------+  +-----------+ 
+| 3  | b |->| 2  | a |->| 1  | NULL |
++--------+  +--------+  +-----------+
+     c         b              a       
+    top
+```
+
+- `pop()` deletes the top node
+
+```text
++--------+  +-----------+ 
+| 2  | a |->| 1  | NULL |
++--------+  +-----------+
+     b              a       
+    top
+```
+
+- `top()` return the `data` of `top` node, returns `2` in this case.
+- `empty()` right now returns `false` as `top != NULL`.
+- `erase()` deletes all nodes from memory.
+

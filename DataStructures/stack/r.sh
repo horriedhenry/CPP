@@ -1,2 +1,2 @@
-g++ main.cpp -o a && ./a
+g++ ./stack_ll.cpp -o a && ./a
 rm -rf ./a
