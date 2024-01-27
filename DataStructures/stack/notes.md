@@ -5,10 +5,10 @@
 
 # Stack Operations
 
-- push() - push an element.
-- pop() - remove the last element.
-- top() - points to the top most element in stack, i.e the element inserted at last.
-- empty() - checks if the stack is empy.
+- `push()`  - push an element.
+- `pop()`   - remove the last element.
+- `top()`   - points to the top most element in stack, i.e the element inserted at last.
+- `empty()` - checks if the stack is empy.
 
 # Implement stack using an array
 
@@ -32,10 +32,10 @@ t=-1
 
 ### stack Operations with array.
 
-- push()  - push an element, to the array using `top` pointer, increment `top` first then at `stack[top]` `push` the element. when trying to push check if we reached the end of the array by doing `if(top > size)` then just return, or print we are out of size.
-- pop()   - remove the last element. in terms of array just decrement the top pointer by `top--`. as we cannot delete an array memory location. check if stack is empty by using `if(top == -1)` then just return, there is not element to pop. If we want we can just do `stack[top] = 0` and then decrement the `top` pointer.
-- top()   - points to the top most element in stack, i.e the element inserted at last.return the top most element, also check if the stack is empty.
-- empty() - checks if the stack is empty, return `true` if stack is empty, `false` if not. use `if(top == -1) return true` else return `false`. use `empty()` function in all the above operatoins.
+- `push()`  - push an element, to the array using `top` pointer, increment `top` first then at `stack[top]` `push` the element. when trying to push check if we reached the end of the array by doing `if(top > size)` then just return, or print we are out of size.
+- `pop()`   - remove the last element. in terms of array just decrement the top pointer by `top--`. as we cannot delete an array memory location. check if stack is empty by using `if(top == -1)` then just return, there is not element to pop. If we want we can just do `stack[top] = 0` and then decrement the `top` pointer.
+- `top()`   - points to the top most element in stack, i.e the element inserted at last.return the top most element, also check if the stack is empty.
+- `empty()` - checks if the stack is empty, return `true` if stack is empty, `false` if not. use `if(top == -1) return true` else return `false`. use `empty()` function in all the above operatoins.
 
 ### Implementation
 
@@ -153,11 +153,11 @@ Stack top = NULL; // as top is not pointing to anything, stack is empty.
 
 ### stack Operations with Linked List (single) .
 
-- push()  - when pushing to Linked list always `insert at beginning`, this perfecly folows the `LIFO`, if we insert at end then when we do `pop` operation we will loose the link to previous node. As a single link link only points to next node, we should not use `insert at end`.
-- pop()   - remove `head` node and assign the new head use for the node next to `head`. or we can use `top` to point to the first node, instead of naming it `head`.
-- top()   - return `top->data`
-- empty() - if `top == NULL` then return `true` else return `false`.
-- erase() - we can use `erase` to delete the entire stack to free memory, this is just delete all nodes in the linked list.
+- `push()`  - when pushing to Linked list always `insert at beginning`, this perfecly folows the `LIFO`, if we insert at end then when we do `pop` operation we will loose the link to previous node. As a single link link only points to next node, we should not use `insert at end`.
+- `pop()`   - remove `head` node and assign the new head use for the node next to `head`. or we can use `top` to point to the first node, instead of naming it `head`.
+- `top()`   - return `top->data`
+- `empty()` - if `top == NULL` then return `true` else return `false`.
+- `erase()` - we can use `erase` to delete the entire stack to free memory, this is just delete all nodes in the linked list.
 
 ### Implementation
 
@@ -280,4 +280,21 @@ void erase() {
 - `top()` return the `data` of `top` node, returns `2` in this case.
 - `empty()` right now returns `false` as `top != NULL`.
 - `erase()` deletes all nodes from memory.
+
+# Stack using Linked list VS Array
+
+### Array
+
+- Array takes fixed bytes of memory to Implement stack.
+
+```c++
+int stack[10];
+std::cout << sizeof(stack) << std::endl;
+```
+
+- The `cout` returns `40`, which mean it is storing `40` integers each with a size of `4` bytes which totals to `40` bytes.
+- And there is no way we can delete this array, to free up memory during runtime.
+- The `stack` array takes `40` bytes of memory, throught the program and gets deleted from stack memory after the execution of program.
+
+### Linked List
 
