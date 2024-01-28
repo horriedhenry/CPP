@@ -70,16 +70,12 @@ void erase() {
 }
 
 int main (int argc, char *argv[]) {
-    // push(1);
-    // push(2);
-    // push(3);
-    // pop();
-    // pop();
-    // std::cout << Top() << "\n";
-    // erase();
-    int stack[10];
-    std::cout << sizeof(stack) << std::endl;
-    Stack* stack_ll = NULL;
-    std::cout << sizeof(*stack_ll) << std::endl;
+    push(1);
+    push(2);
+    push(3);
+    pop();
+    pop();
+    std::cout << Top() << "\n";
+    erase();
     return 0;
 }

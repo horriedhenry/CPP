@@ -298,3 +298,48 @@ std::cout << sizeof(stack) << std::endl;
 
 ### Linked List
 
+- With linked list we can allocate memory manually, and free the memory when we are done with it.
+
+```c++
+typedef struct Stack {
+    struct Stack* next;
+    int data;
+} Stack;
+
+Stack* stack_ll = NULL;
+std::cout << sizeof(*stack_ll) << std::endl;
+```
+
+- `cout` return `16` bytes, but `stack_ll` is pointer to the variable `stack_ll` is a pointer to a `Stack` structure. When you write `stack_ll = NULL`, you are assigning the value `NULL` to this pointer, indicating that it currently does not point to any valid memory location.
+- `cout` should actually return `12` as `int` takes `4` bytes and pointer to structure is usually `4` or `8` bytes bases on system architecture `32-bit or 64-bit` in our case it's `8` bytes, so it should have been `16`.
+- The size of `struct Stack` should be `12` bytes, `4` for `int` and `8` bytes for `struct Stack* next` so in total this should be `12` bytes, but instead we are getting `16` bytes.
+- `chatGPt` - If you're seeing `16` bytes, there might be additional `padding` added by the compiler for `alignment purposes`. Compilers often align data structures to improve memory access speed. You can use the `#pragma pack` directive or compiler-specific attributes to control the alignment.
+
+```c++
+// chatGPt
+#pragma pack(push, 1)  // Set packing alignment to 1 byte
+typedef struct Stack {
+    struct Stack* next;
+    int data;
+} Stack;
+#pragma pack(pop)  // Restore original packing alignment
+```
+
+- That actually worked..`std::cout << sizeof(*stack_ll) << std::endl` is returning `12`.
+- I got into this memory....shit...i'll just finish this..
+- So let's understand this with an example..
+
+```c++
+Stack* stack_node = (Stack *)malloc(sizeof(Stack));
+```
+
+- This will allocate `12` or `16` bytes(we know why).
+
+```c++
+Stack* top = stack; // top points to the memory location of stack_node
+```
+
+- `top` pointer takes `8` bytes of memory because on a `64-bit` system architecture, a pointer takes `8` bytes.
+- I am getting out of this memory..bullshit..
+- I guess use whatever to implement stack but at the end i'll end up using `STL`. But `Linked List` implementation is better, readable and dont have to worry about `top++` before `stack[top] = x`.. and can free up memory, no `size` restrictions etc, i like `linked list` Implementation.
+
