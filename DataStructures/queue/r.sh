@@ -1,2 +1,2 @@
-time g++ ./queue_arr.cpp -o a && ./a
+time g++ ./queue_ll.cpp -o a && ./a
 rm -rf ./a

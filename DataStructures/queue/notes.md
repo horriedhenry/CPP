@@ -286,3 +286,170 @@ f=-1
 - now `enqueue(7)` will try to insert new item into queue at `queue[6]` but it is out of bonds, it exceeded the size limit...
 - in `enqueue()` add a condition to check  `if back > size - 1` then just return... dont insert any item..
 
+# Queue using Singl Linked List
+
+- WKT `insertion` happens from `back` and `deletion` happens from `front`.
+- in case of `insertion` or `push` is just `insert node at end` operation on ll.
+- in case of `deletion` or `pop` it is just `remove first node` operation on ll.
+- we keep trace of both `first` and `last` node of linked list for `insertion` and `deletion`.
+
+### Operations
+
+- `enqueue()` - insert node at the end of ll.
+- `dequeue()` - delete first node.
+- `peek()`    - print data value of first node.
+- `empty()`   - return `true` if `front == NULL`.
+
+### Implementation
+
+```c++
+// Queue Node
+typedef struct Queue {
+    struct Queue* next;
+    int data;
+} Queue;
+
+Queue* front = NULL; // used for insertion - enqueue()
+Queue* back = NULL; // used for deletion - dequeue()
+
+Queue* _malloc() {
+    return (Queue *)malloc(sizeof(Queue));
+}
+
+void assign(Queue* ptr, int x) {
+    ptr->next = NULL;
+    ptr->data = x;
+}
+
+bool empty() {
+    if (front == NULL) {
+        return true;
+    }
+    return false;
+}
+
+void push(int x) {
+    if (empty()) {
+        // if Queue is empty , it means this is the first insertion, so front and back will point to same node.
+        Queue* push = _malloc();
+        assign(push, x);
+        back = push;
+        front = back;
+        return;
+    }
+    // add item from end of ll
+    Queue* push = _malloc();
+    assign(push, x);
+    back->next = push;
+    back = push;
+    return;
+}
+
+void pop() {
+    if (!empty()) {
+        // if Queue is not empty then pop the first node.
+        Queue* next = front->next;
+        free(front);
+        front = next;
+        return;
+    }
+    std::cout << "[pop] : Queue is empty" << std::endl;
+}
+
+void peek() {
+    // first item in Queue at the time.
+    if (!empty()) {
+        // if Queue is not empty then print the data value of first node.
+        std::cout << std::endl;
+        std::cout << front->data << std::endl;
+        return;
+    }
+    std::cout << "[peek] : Queue is empty" << std::endl;
+}
+
+void erase() {
+    while(!empty()) {
+        pop();
+    }
+}
+```
+
+### Understand with an example.
+
+- initially `front` and `back` pointers are `NULL`.
+- so to check if `queue` is `empty` we just need to check `if (front == NULL)` or we can also use `if (back == NULL)` instead.., both work.
+- `push(1)` looks like..
+
+```text
++----------+
+| 1 | NULL |
++----------+
+     a
+   front
+   back
+```
+
+- As this is the first insertion `front` and `back` point to `first` node. And i know why...(check the doc).
+
+- `push(2)`
+
+```text
++-------+  +----------+
+| 1 | b |->| 2 | NULL |
++-------+  +----------+
+     a           b       
+   front        back
+```
+
+- `push(3)`
+
+```text
++--------+  +--------+  +-----------+
+| 1  | b |->| 2  | c |->| 3  | NULL |
++--------+  +--------+  +-----------+
+     a           b           c
+   front                    back
+```
+
+- `peek()` will print `1`
+- `pop()` on ll will look like....
+
+```text
++--------+  +----------+
+| 2  | c |->| 3 | NULL |
++--------+  +----------+
+     b           c       
+   front        back
+```
+
+- `pop()`
+
+```text
++----------+
+| 3 | NULL |
++----------+
+    c       
+  front
+   back
+```
+
+- `peek()` will return `3`.
+- `pop()` would make `front = NULL` and `back = NULL`, this will make the `Queue` empty. 
+
+#### empty() condition
+
+- we can just use `if (front == NULL)` return `true`, if it's `NULL` it means Queue is empty.
+- what if there is only one node and we do `pop()` if so , `front` and `back` will be `NULL`, which makes `queue` `empty`.
+
+#### erase()
+
+```c++
+void erase() {
+    while(!empty()) {
+        pop();
+    }
+}
+```
+
+- Using while list is not empty `while (!empty())` is just better than using `delete all nodes` method, that is used in case of a single linked list. (This is good, the way i implemented pop() will not print `[pop]..` statement from `pop()`).
+
