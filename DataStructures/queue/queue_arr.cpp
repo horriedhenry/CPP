@@ -14,6 +14,7 @@ bool empty() {
     }
     return false;
 }
+
 void push(int x) {
     // enqueue()
     back++;

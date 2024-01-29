@@ -4,28 +4,34 @@
 - In queue insertion happens from one end and deletion happens from other.
 - `insertion` happens from `back` and `deletion` happens from `front`.
 
-# Queue operations
+## Operations
 
-- `enqueue()` - similar to `push()` used to add `element` into `queue`.
-- `dequeue()` - similar to `pop()` deletes the `first` element `in` into the queue, and after deletion it will `point` to `2nd` element `in` and so on..
-- `peek()`    - similar to `top()` points to `first` element `in` into the queue, returns `queue[first]`, whatever `first` points to .
+- `enqueue()` - similar to `push()` used to add an `item` into `queue`.
+- `dequeue()` - similar to `pop()` deletes the `first` item `in` into the queue, and after deletion it will `point` to `2nd` item `in` and so on..
+- `peek()`    - similar to `top()` points to `first` item `in` into the queue, returns `queue[first]`, whatever `first` points to .
 - `empty()`   - return `true` if `queue` is empty.
 
-# Queue implementation using array.
+## Queue Implementation using array.
 
-- We use two pointers `front` and `back`, `front` points to the first element `in` into the array, and `back` points to the last element `in` into the array or `latest` element in the array.
+- We use two pointers `front` and `back`, `front` points to the `first item` `in` into the array, and `back` points to the last `item` `in` into the array or `latest` `item` in the array.
 - I implemented queue before making these notes... I explained this to my self just to make sure that i can just express what i know, that i know what i know..in engblish (it's `english` ik).
+- I used `item` instead of `element`...it does not matter...
 
 ```c++
-#include <iostream>
-
 const int size = 6;
 int front = -1;
 int back = -1;
 int queue[size] = {0};
 
-void push(int x) {
-    // enqueue()
+bool empty() {
+    if (front == -1 || front > back) {
+        return true;
+    }
+    return false;
+}
+
+void enqueue(int x) {
+    // push()
     back++;
     if (back > size - 1) {
         std::cout << "queue overflow" << "\n";
@@ -37,16 +43,16 @@ void push(int x) {
     }
 }
 
-void pop() {
-    // dequeue()
+void dequeue() {
+    // pop()
     if (front > back || front == -1) {
         return;
     }
     front++;
 }
 
-int top() {
-    // peek()
+int peek() {
+    // top()
     if (front > back || front == -1) {
         return -1;
     }
@@ -67,12 +73,12 @@ b=-1
 f=-1
 ```
 
-- when ever we `insert` an element into the `queue` we will `increment` back by `1` and at that pos we will insert the new element.
-- when ever we `delete` an element from the `queue` we will `increment` front by `1` to point to `2nd` most element or `3rd` most and so on..
+- when ever we `insert` an item into the `queue` we will `increment` back by `1` and at that pos we will insert the new item.
+- when ever we `delete` an item from the `queue` we will `increment` front by `1` to point to `2nd` most item or `3rd` most and so on..
 
 ### Understand how queue works with an example.
 
-- `enqueue()` or `push()` element `1` into queue.
+- `enqueue()` or `push()` item `1` into queue.
 - `increment` `b` by `1` and insert `1` at `queue[b]`.
 
 ```text
@@ -84,7 +90,7 @@ f=-1
 f=-1
 ```
 
-- `front` or `f` should point to `first` element `in` into the `queue` but it is still `-1`, so for the first element `in` into the `queue` we also `increment` `f` by `1`, but only when `insertion` is done for the first time.
+- `front` or `f` should point to `first` item `in` into the `queue` but it is still `-1`, so for the first item `in` into the `queue` we also `increment` `f` by `1`, but only when `insertion` is done for the first time.
 
 ```text
        0   1   2   3   4   5  
@@ -95,9 +101,9 @@ f=-1
        f
 ```
 
-- when ever `insertion` is done for the first time or `enqueue()` is called for the first time, we check if `first` is still `-1` if so `increment` `first` also.
+- when ever `insertion` is done for the first time or `enqueue()` is called for the first time or it's just adding an `item` into `queue` for the first time, we check if `first` is still `-1` if so `increment` `first` also.
 
-#### Edge case - why should we increment `f` when calling `enqueue()` for the first time.
+#### **IMP** Why should we increment `f` when calling `enqueue()` for the first time.
 
 - what happens if we don't `f++` for the first time when calling `enqueue()`...
 - let's Understand with an example.
@@ -133,8 +139,8 @@ f=-1
        f   b
 ```
 
-- `f` should not point to `1` we called `dequeue()` to just move from the `first` element, but it is still pointing to `first` element..
-- if we call `dequeue()` again for the `second` time , then queue will move from `first` element.. this should not happen..
+- `f` should not point to `1` we called `dequeue()` to just move from the `first` item, but it is still pointing to `first` item..
+- if we call `dequeue()` again for the `second` time , then queue will move from `first` item.. this should not happen..
 
 ```text
        0   1   2   3   4   5  
@@ -145,7 +151,7 @@ f=-1
            f
 ```
 
-- calling `dequeue()` for the `second` time should remove the `second` element but it did not...
+- calling `dequeue()` for the `second` time should remove the `second` item but it did not...
 - to prevent this from happening we increment `first` pointer when calling `enqueue()` for the first time.
 
 ### continuation...on how queue works.
@@ -161,7 +167,7 @@ f=-1
        f
 ```
 
-- calling `enqueue(2)`.. insert one more element into the `queue`.
+- calling `enqueue(2)`.. insert one more item into the `queue`.
 
 ```text
        0   1   2   3   4   5  
@@ -255,7 +261,7 @@ f=-1
 
 #### queue overflow
 
-- this is our queue.. right now
+- this is the queue.. right now
 
 ```text
        0   1   2   3   4   5  
