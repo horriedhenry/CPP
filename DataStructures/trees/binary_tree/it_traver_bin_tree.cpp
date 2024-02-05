@@ -25,8 +25,12 @@ void preorder(tree* root) {
     st.push(root);
     while (!st.empty()) {
         root = st.top();
-        std::cout << root->val << " ";
+        // process the top node from stack, and then to indicate that it's processed pop it from stack
         st.pop();
+        std::cout << root->val << " ";
+        // after processing the top node check if it has a right node, because when we are done with the left sub-tree we need the right sub tree
+        // so push the root node of the right sub-tree to the stack first and then the root of the left sub-tree
+        // and the top node on the stack will be the root node of left sub-tree and that's what's required.
         if (root->right != NULL) {
             st.push(root->right);
         }
@@ -41,15 +45,19 @@ void inorder(tree* root) {
         return;
     }
     std::stack<tree*> st;
-    while(!st.empty() || root != NULL) {
-        if(root != NULL) {
+    while (!st.empty() || root != NULL) {
+        if (root != NULL) {
+            // when root or current node is not NULL traverse the left part
             st.push(root);
             root = root->left;
         } else {
-            tree *print = st.top();
+            // when root or current node is NULL process the top node from stack
+            // and then traverse the right sub-tree part of current node
+            // and if the right node is not NULL it will be pushed to stack in the above if statement
+            tree* process = st.top();
             st.pop();
-            std::cout << print->val << " ";
-            root = print->right;
+            std::cout << process->val << " ";
+            root = process->right;
         }
     }
 }
