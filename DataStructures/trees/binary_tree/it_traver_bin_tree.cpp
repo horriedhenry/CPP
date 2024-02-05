@@ -62,6 +62,17 @@ void inorder(tree* root) {
     }
 }
 
+void postorder(tree* root) {
+    // process the left sub-tree of the root node first and then the right sub-tree and then process the root node.
+    // TODO : iterative approach
+    if (root == NULL) {
+        return;
+    }
+    // postorder(root->left);
+    // postorder(root->right);
+    // std::cout << root->val << " ";
+}
+
 int main (int argc, char *argv[]) {
     // tree
     /*
