@@ -77,8 +77,8 @@ A **Binary Tree** is a hierarchical data structure composed of nodes, where each
       2   3 (Level 1)
      / \
     4   5 (Level 2)
-   /
-  6   (Level 3)
+    /
+    6   (Level 3)
 ```
 
 In this example:
@@ -110,11 +110,12 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 ## Traversing a Binary Tree (Tree traversal).
 
-[Michael Sambol](https://www.youtube.com/watch?v=1WxLM2hwL-U)
-
 - Tree `traversal` is a systematic way of visiting nodes in a `tree`.
 
 ### Preorder Tree Traversal
+
+[Michael Sambol](https://www.youtube.com/watch?v=1WxLM2hwL-U)
+[JavaTpoint](https://www.javatpoint.com/preorder-traversal)
 
 - **Preorder traversal** involves visiting the nodes of a tree in the following order:
   1. Visit the node.
@@ -123,7 +124,7 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 - **Visualization** :
   - The current node is visited first, then the left subtree is explored, and finally, the right subtree is explored.
-  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node`, to indicated that it is visited.
+  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node` to indicated that it is visited.
   ```text
          1   
        /   \
@@ -135,6 +136,9 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 ### Inorder
 
+[Michael Sambol](https://www.youtube.com/watch?v=5dySuyZf9Qg)
+[JavaTpoint](https://www.javatpoint.com/inorder-traversal)
+
 - **Inorder traversal** involves visiting the nodes of a tree in the following order:
   1. Traverse left sub-tree.
   2. Visit the node.
@@ -142,7 +146,7 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 - **Visualization** :
   - The left subtree is explored first, then the current node is visited, and finally, the right subtree is explored.
-  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node`, to indicated that it is visited.
+  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node` to indicated that it is visited.
   ```text
          1   
        /   \
@@ -155,6 +159,9 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 ### Postorder
 
+[Michael Sambol](https://www.youtube.com/watch?v=4zVdfkpcT6U)
+[JavaTpoint](https://www.javatpoint.com/postorder-traversal)
+
 - **Postorder traversal** involves visiting the nodes of a tree in the following order:
   1. Traverse left sub-tree.
   2. Traverse right sub-tree.
@@ -162,7 +169,7 @@ So, when saying 'the level of a node is the distance from the root,' it means co
 
 - **Visualization** :
   - The left subtree is explored first, then the right subtree is explored, and finally, the current node is visited.
-  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node`, to indicated that it is visited.
+  - Consider this tree, and when a `node` is visited, `print` the `value` of that `node` to indicated that it is visited.
   ```text
          1   
        /   \
