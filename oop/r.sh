@@ -1,2 +1,2 @@
-g++ ./oop_basics.cpp -o a && ./a
+g++ ./getter_setter.cpp -o a && ./a
 rm -rf ./a
