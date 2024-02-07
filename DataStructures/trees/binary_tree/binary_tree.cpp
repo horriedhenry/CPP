@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <queue>
 
 #define endl std::endl
 
@@ -43,6 +44,22 @@ void postorder(tree* root) {
     std::cout << root->val << " ";
 }
 
+void level_order(tree* root) {
+    std::queue<tree*> q;
+    q.push(root);
+    while (!q.empty()) {
+        tree* curr = q.front();
+        q.pop();
+        std::cout << curr->val << " ";
+        if (curr->left != NULL) {
+            q.push(curr->left);
+        }
+        if (curr->right != NULL) {
+            q.push(curr->right);
+        }
+    }
+}
+
 int main (int argc, char *argv[]) {
     tree* root = new tree(1);
     tree* root_left = new tree(2);
@@ -79,6 +96,9 @@ int main (int argc, char *argv[]) {
     std::cout << endl;
     std::cout << "postorder : ";
     postorder(root);
+    std::cout << endl;
+    std::cout << "level_order : ";
+    level_order(root);
     std::cout << endl;
 
     // or .. another method would be

@@ -1,2 +1,2 @@
-time g++ ./build_bin_tree_from_preorder.cpp -o a && ./a
+time g++ ./binary_tree.cpp -o a && ./a
 rm -rf ./a
