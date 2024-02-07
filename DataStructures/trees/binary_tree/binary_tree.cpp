@@ -47,15 +47,28 @@ void postorder(tree* root) {
 void level_order(tree* root) {
     std::queue<tree*> q;
     q.push(root);
+    q.push(NULL);
+    
     while (!q.empty()) {
         tree* curr = q.front();
         q.pop();
-        std::cout << curr->val << " ";
-        if (curr->left != NULL) {
-            q.push(curr->left);
+        if (curr != NULL) {
+            std::cout << curr->val << " ";
+            if (curr->left != NULL) {
+                q.push(curr->left);
+            }
+            if (curr->right != NULL) {
+                q.push(curr->right);
+            }
         }
-        if (curr->right != NULL) {
-            q.push(curr->right);
+        else if (!q.empty()) {
+            // level_order :
+            // 1
+            // 2 3
+            // 4 5 6 7
+            // NULL == 1 level is complete
+            std::cout << endl;
+            q.push(NULL);
         }
     }
 }
@@ -97,7 +110,7 @@ int main (int argc, char *argv[]) {
     std::cout << "postorder : ";
     postorder(root);
     std::cout << endl;
-    std::cout << "level_order : ";
+    std::cout << "level_order : " << endl;
     level_order(root);
     std::cout << endl;
 
