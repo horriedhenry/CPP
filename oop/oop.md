@@ -102,3 +102,95 @@ public:
     } // parameterized constructor
 };
 ```
+
+# Copy Constructor
+
+- `Default Copy Constructor(shallow)` : A shallow copy creates a new object and then copies the contents of the original object into the new object. However, if the original object contains pointers to dynamically allocated memory, the shallow copy only copies the addresses of the memory locations pointed to by those pointers, not the actual data pointed to. As a result, both the original object and the copied object will point to the same memory locations, which can lead to issues if one object modifies the data, affecting the other object.
+- `specified (Deep)` : A deep copy, on the other hand, creates a new object and then recursively copies the contents of the original object, including any dynamically allocated memory. This means that the new object has its own copy of all the data, independent of the original object.
+
+- Example
+
+```c++
+#include <iostream>
+#include <string>
+
+#define endl std::endl
+
+class Student {
+std::string name; // private by default
+int age;
+std::string address;
+public:
+    // default constructor
+    Student() : name("default"), age(0) {}
+
+    Student(const std::string& name, const int& age, const std::string& address) {
+        this->name = name;
+        this->age = age;
+        this->address = address;
+    } // parameterized constructor
+
+    void getter() {
+        std::cout << this->name << endl;
+        std::cout << this->age << endl;
+    }
+
+    void setter(const std::string& name, const int& age, const std::string& address) {
+        this->name = name;
+        this->age = age;
+    }
+};
+
+int main (int argc, char *argv[]) {
+    Student s1("henry", 21, "address");
+    s1.getter();
+    Student s2 = s1;
+    s2.setter("other", 100, "other_address");
+    s1.getter();
+    return 0;
+}
+```
+
+- ChatGpt - When you do s2 = s1;, since you haven't provided a custom copy constructor, the default copy constructor provided by the compiler will be used. This default copy constructor performs a shallow copy, meaning it copies the values of each data member from the source object (s1 in this case) to the target object (s2), member by member. For std::string members like name and address, shallow copying will actually create new std::string objects in s2 that are copies of the strings in s1. Therefore, s2 will have its own copies of name and address, and modifying them through s2.setter() will not affect the corresponding variables in s1. However, for non-pointer primitive types like int, shallow copying just copies the value itself, not the memory location. So, changing age through s2.setter() will not affect age in s1 because they are completely independent copies. Therefore, calling s2.setter() will indeed modify the member variables of s2 without affecting s1. Each object (s1 and s2) has its own set of member variables with their own memory locations.
+
+- Copy Constructor
+
+```c++
+Student(const Student& copy_from_to_current_obj) {
+    this->name = copy_from_to_current_obj.name;
+    this->age = copy_from_to_current_obj.age;
+    this->address = copy_from_to_current_obj.address;
+}
+```
+
+# Destructor
+
+- use this..
+
+```c++
+~Student() {
+    std::cout << "Destructor is called" << endl;
+};
+```
+
+- or this..
+
+```c++
+~Student() {};
+```
+
+
+- `~Student();` throws an error...
+
+```c++
+/usr/bin/ld: /tmp/ccJZBjSw.o: in function `main':
+constructor_des.cpp:(.text+0x105): undefined reference to `Student::~Student()'
+/usr/bin/ld: constructor_des.cpp:(.text+0x1e9): undefined reference to `Student::~Student()'
+/usr/bin/ld: constructor_des.cpp:(.text+0x1f8): undefined reference to `Student::~Student()'
+/usr/bin/ld: constructor_des.cpp:(.text+0x2c6): undefined reference to `Student::~Student()'
+/usr/bin/ld: constructor_des.cpp:(.text+0x2da): undefined reference to `Student::~Student()'
+collect2: error: ld returned 1 exit status
+```
+
+- ChatGpt : The error message you're seeing, undefined reference to 'Student::~Student()', typically indicates that the linker is unable to find the definition of the destructor for the Student class. In your code, you've declared the destructor for the Student class using ~Student();, but you haven't provided a definition for it. Since the compiler-generated destructor would be sufficient for your purposes, you can simply remove the declaration for the destructor in your class.
+

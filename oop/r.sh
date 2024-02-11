@@ -1,2 +1,2 @@
-g++ ./getter_setter.cpp -o a && ./a
+g++ ./constructor_des.cpp -o a && ./a
 rm -rf ./a
