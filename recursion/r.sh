@@ -1,1 +1,2 @@
-g++ bin_search.cpp -o a && ./a
+g++ rec.cpp -o a && ./a
+rm -rf ./a
