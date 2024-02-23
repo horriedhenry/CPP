@@ -1,3 +1,3 @@
-time g++ rec.cpp -o a && ./a
-# time ./a
-# rm -rf ./a
+g++ rat_in_a_maze.cpp -o a
+time ./a
+rm -rf ./a
