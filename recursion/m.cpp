@@ -4,7 +4,7 @@ void recursion(int x) {
     if (x > 5) {
         return;
     }
-    std::cout << x << std::endl;
+    std::cout << x << std::endl; // pre recursion
     recursion(x + 1);
 }
 
