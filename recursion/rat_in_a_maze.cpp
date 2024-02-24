@@ -43,32 +43,32 @@ bool walk(int maze[rows][cols], bool visited[rows][cols], int r, int c, std::str
         return true;
     }
 
-    // pre recursion : before checking in all other Directions from position, mark this pos visited
+    // pre recursion : (TLDR; if rat can be here) before checking in all other Directions from position, mark this pos visited
     // and then add what direction we took to path
     visited[r][c] = true;
     path.append(curr_direction); // either D or L or R or U (down, left, right, up)
     // recursion : check, where can the rat move from curr position, we have 4 possible directions -> down, left, right, up
     // if we can move in any direction, walk to that position and again recursivly check all other directions form that position
     // check if we can walk in downward direction from curr pos
-    if (walk(maze, visited, r + 1, c, "D")) {
+    if (walk(maze, visited, r + 1, c, "D ")) {
         // if we can go downward then walk in that direction
         // return true to indicate that we can walk down
         return true;
     }
     // if we could not walk downward, then check if we can walk in left direction
-    else if (walk(maze, visited, r, c - 1, "L")) {
+    else if (walk(maze, visited, r, c - 1, "L ")) {
         // if we can go left then walk in that direction
         // return true to indicate that we can walk left
         return true;
     }
     // if we could not walk downward, or left then check if we can take a right
-    else if (walk(maze, visited, r, c + 1, "R")) {
+    else if (walk(maze, visited, r, c + 1, "R ")) {
         // if we can go right, then walk in right direction
         // return true to indicate that we can walk right
         return true;
     }
     // if we could not walk downward, or left or right then check if we can go in upward direction
-    else if (walk(maze, visited, r - 1, c, "U")) {
+    else if (walk(maze, visited, r - 1, c, "U ")) {
         // if we can go up, then walk in upward direction
         // return true to indicate that we can walk up
         return true;
@@ -93,7 +93,7 @@ bool walk(int maze[rows][cols], bool visited[rows][cols], int r, int c, std::str
            // 0 0 1 1(end)
     // Directions from (0, 0)
     // DDRRDR
-    // visited[r][c] = false;
+    visited[r][c] = false;
     // if we don't make visited = false this is what we get
     // maze : 
     // int maze[rows][cols] = {
@@ -127,7 +127,14 @@ void solve(int maze[rows][cols], bool visited[rows][cols], int r, int c, std::st
         std::cout << "Directions from (0, 0)" << std::endl;
         std::cout << path << std::endl;
     } else {
-        std::cout << "There is not path to Destination" << std::endl;
+        std::cout << "There is not path to Destination \n But here is the the rat's path" << std::endl;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < rows; j++) {
+                std::cout << visited[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << path << std::endl;
     }
 }
 
@@ -137,7 +144,7 @@ int main (int argc, char *argv[])
         {1, 0, 0, 0},
         {1, 1, 1, 0},
         {1, 0, 1, 0},
-        {0, 0, 1, -1},
+        {0, 0, 0, -1},
     };
 
     bool visited[rows][cols] = {false};
