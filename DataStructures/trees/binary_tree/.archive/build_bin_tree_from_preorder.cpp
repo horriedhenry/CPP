@@ -34,15 +34,8 @@ void preorder(tree* root) {
 }
 
 tree* build_tree(const std::vector<int>& nodes, int& it) {
-    it++;
-    if (it >= nodes.size() || nodes[it] == -1) {
-        // while incrementing the iterator if it goes out of bounds return NULL
-        return NULL;
-    }
-    tree* newNode = new tree(nodes[it]);
-    newNode->left = build_tree(nodes, it);
-    newNode->right = build_tree(nodes, it);
-    return newNode;
+    // TODO
+    return NULL;
 }
 
 int main (int argc, char *argv[]) {
