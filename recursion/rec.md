@@ -1,4 +1,5 @@
 - [Recursion(CS)](https://en.wikipedia.org/wiki/Recursion_(computer_science))
+
 - [Recursion](https://en.wikipedia.org/wiki/Recursion)
 
 # Recursion
@@ -87,11 +88,9 @@ while (i <= 5) {
 	- **Local variables** are no longer accessible
 	- Control returns to the instruction at the **return address**
 
-
 ### Importance
 
 - `Nested Calls     :` Allows functions to call other functions, forming a hierarchy. The call stack keeps track of the nesting and ensures each function returns to its correct caller.
 - `Return Mechanism :` Provides a way for functions to return control to the point where they were called, ensuring proper program flow.
 - `Error Handling   :` Helps identify errors like trying to access variables from a function that has already finished (as its activation record is no longer on the stack).
 
-# TODO : notes are undone
