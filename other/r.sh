@@ -1,1 +1,1 @@
-g++ prime.cpp -o a && ./a
+g++ ./maybeunused.cpp -o a && ./a
