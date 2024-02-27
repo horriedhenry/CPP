@@ -40,7 +40,7 @@
 
 - these are not equal both structurally and do not have similar values.
 
-### Implementation
+### The Idea
 
 - use `DFS` because it preserves shape. where as `BFS` which uses `queue` will not preserve `shape`.
 
@@ -64,32 +64,8 @@
 - but we need both the trees to be structurally similar too.
 - if we use `DFS` the order of the values change and when comparing both the trees order is maintained. (use an example and dryrun with both DFS an BFS).
 
-```c++
 
-bool compare(tree* root1, tree* root2)
-{
-    if (root1 == NULL && root2 == NULL) {
-        // leaf node
-        return true;
-    }
-
-    if (root1 == NULL || root2 == NULL) {
-        // if any of the above conditions are true then return false
-        return false;
-    }
-
-    if (root1->val != root2->val) {
-        // if we use root1->val == root2->val
-        return false;
-    }
-
-    return compare(root1->left, root2->left) && compare(root1->right, root2->right);
-}
-
-```
-
-
-### This is how it works
+### How it works
 
 ![step1](./media/1.png)
 
@@ -108,6 +84,35 @@ bool compare(tree* root1, tree* root2)
 ![step8](./media/8.png)
 
 
+### Implementation
+
+```c++
+
+bool compare(tree* root1, tree* root2)
+{
+    // structural check
+    if (root1 == NULL && root2 == NULL) {
+        // leaf node
+        return true;
+    }
+
+    // structural check
+    if (root1 == NULL || root2 == NULL) {
+        // if any of the above conditions are true then return false
+        return false;
+    }
+
+    // value check
+    if (root1->val != root2->val) {
+        // Even though the structure is similar but the values aren't return false.
+        return false;
+    }
+
+    return compare(root1->left, root2->left) && compare(root1->right, root2->right);
+}
+
+```
+
 ### root1.val == root2.val (x)
 
 - if we use this....
@@ -125,7 +130,11 @@ bool compare(tree* root1, tree* root2)
 
 - And there is one more thing... and i.e ... this condition.
 
-### These debug statements will help understand what is going on at every iteration.
+### Debug statements help...
+
+- These debug statements will help understand what is going on at every step of recursion.
+- Addes some pre and post recursion print statements to help understand what is going on.
+- If these did not help, look [How It Works](#How-it-works)
 
 ```c++
 

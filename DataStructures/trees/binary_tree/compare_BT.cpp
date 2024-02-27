@@ -18,18 +18,21 @@ typedef struct tree
 
 bool compare(tree* root1, tree* root2)
 {
+    // structural check
     if (root1 == NULL && root2 == NULL) {
         // leaf node
         return true;
     }
 
+    // structural check
     if (root1 == NULL || root2 == NULL) {
         // if any of the above conditions are true then return false
         return false;
     }
 
+    // value check
     if (root1->val != root2->val) {
-        // if we use root1->val == root2->val
+        // Even though the structure is similar but the values aren't return false.
         return false;
     }
 
