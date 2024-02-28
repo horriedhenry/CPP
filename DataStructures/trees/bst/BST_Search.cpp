@@ -28,12 +28,11 @@ bool search(tree* root, int needle)
     if (needle > root->val) {
         return search(root->right, needle);
     }
-    else {
-        // BST follow :
-        // right_subtree.val should be > root.val
-        // left_subtree.val should be <= root.val
-        return search(root->left, needle);
-    }
+    // BST follow :
+    // right_subtree.val should be > root.val
+    // left_subtree.val should be <= root.val
+    // there is only one possibility after the above if statement and i.e go left
+    return search(root->left, needle);
 }
 
 int main (int argc, char *argv[])
