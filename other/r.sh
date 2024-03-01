@@ -1,1 +1,2 @@
-g++ ./maybeunused.cpp -o a && ./a
+g++ ./init_vars.cpp -o a && ./a
+rm -rf ./a

@@ -1,11 +1,14 @@
 #include <iostream>
 
+// https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
+
+#define endl std::endl
+
 int main (int argc, char *argv[]) {
-    int a = 1;
-    int b{2};
-    int c = {2};
-    std::cout << a << std::endl;
-    std::cout << b << std::endl;
-    std::cout << c << std::endl;
+    int var = 1; // copy initialization of value 5
+    int var_1(5);
+    // List initialization methods (C++11) (preferred)
+    int var_{3};
+    int e{}; // empty
     return 0;
 }
