@@ -1,7 +1,27 @@
-# Resources 
+# Resources
 
 - [Big(O) CheatSheet](https://www.bigocheatsheet.com/)
 
+- [Big_O_notation](https://en.wikipedia.org/wiki/Big_O_notation)
+
+- [ThePrimeagen fem](https://theprimeagen.github.io/fem-algos/lessons/algorithms-and-time-space-complexity/time-and-space-complexity)
+
+- [Ben Awad](https://www.youtube.com/watch?v=uHjPTUpQOAk&t=8s)
+
+# Big O
+
+- Big O is a way to categorize your algorithms time or memory requirements based on input. It is not meant to be an exact measurement. It will not tell you how many CPU cycles it takes, instead it is meant to generalize the growth of you algorithm.
+- Example, when someone says Oh of N, they mean your algorithm will grow linearly based on input.
+
+### Why do we use it
+
+- Often it will help us make decisions about what data structures and algorithms to use. Knowing how they will perform can greatly help create the best possible solution or program/algorithm.
+
+### Big O, said differently
+
+- As you input grows how fast does computation or memory grow.
+- **Growth** is with respect to the input.
+- **In the real world...** Obviously memory growing is not computationally free, but in the matter of thinking about algorithms we don't necessarily think aobut that.
 
 # Time & Space Complexity
 
