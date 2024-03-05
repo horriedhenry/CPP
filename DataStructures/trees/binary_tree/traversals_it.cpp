@@ -18,6 +18,13 @@ typedef struct tree
     }
 } tree;
 
+typedef struct Node
+{
+    tree* root;
+    bool visit_left = false;
+    bool visit_right = false;
+} Node;
+
 void preorder(tree* root, std::vector<int> traversal)
 {
     if (root == NULL) {
@@ -67,6 +74,29 @@ void inorder(tree* root, std::vector<int>& traversal)
     }
 }
 
+void postorder(tree* root)
+{
+    std::stack<tree*> call_stack;
+    std::stack<tree*> result_stack;
+    call_stack.push(root);
+    while (!call_stack.empty()) {
+        tree* top = call_stack.top();
+        call_stack.pop();
+        result_stack.push(top);
+        if (top->left != NULL) {
+            call_stack.push(top->left);
+        }
+        if (top->right != NULL) {
+            call_stack.push(top->right);
+        }
+    }
+
+    while (!result_stack.empty()) {
+        std::cout << result_stack.top()->val << " ";
+        result_stack.pop();
+    }
+}
+
 int main (int argc, char *argv[])
 {
 
@@ -88,7 +118,7 @@ int main (int argc, char *argv[])
 
     std::vector<int> traversal;
 
-    preorder(root, traversal);
+    postorder(root);
 
     std::cout << endl;
     for (auto it = traversal.begin(); it != traversal.end(); ++it) {
