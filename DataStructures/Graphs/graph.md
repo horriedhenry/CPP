@@ -8,9 +8,9 @@
 
 ![Vertex](./res/node_edge.png)
 
-Node : A vertex is simply a data point in a graph, it can have edges/links to other nodes (directed / undirected). Or. A Node is A point or vertex on the graph.
+**Node** : A vertex is simply a data point in a graph, it can have edges/links to other nodes (directed / undirected). Or. A Node is A point or vertex on the graph.
 
-Edge : A connection bw two vertices/nodes in a graph. It may be directed or undirected. Or. An Edge is the connection between nodes.
+**Edge** : A connection bw two vertices/nodes in a graph. It may be directed or undirected. Or. An Edge is the connection between nodes.
 
 ### Undirected Graph
 
