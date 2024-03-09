@@ -97,6 +97,34 @@ void postorder(tree* root)
     }
 }
 
+void postorder_(tree* root)
+{
+    if (root == NULL) {
+        return;
+    }
+    std::stack<tree*> s;
+    s.push(root);
+    while(!s.empty()) {
+        tree* top = s.top();
+        if (top == NULL) {
+            s.pop();
+            std::cout << s.top()->val << " ";
+            s.pop();
+            continue; // Question for chatgpt : will this indicate that just continue looping and dont execute anything after this current
+            // if (top == NULL) statement
+        }
+
+        s.push(NULL);
+
+        if (top->right != NULL) {
+            s.push(top->right);
+        }
+        if (top->left != NULL) {
+            s.push(top->left);
+        }
+    }
+}
+
 int main (int argc, char *argv[])
 {
 
@@ -118,7 +146,7 @@ int main (int argc, char *argv[])
 
     std::vector<int> traversal;
 
-    postorder(root);
+    postorder_(root);
 
     std::cout << endl;
     for (auto it = traversal.begin(); it != traversal.end(); ++it) {
