@@ -71,8 +71,6 @@ An undirected graph that is not connected is called a disconnected graph.
 
 ![Disconnected Graph](./media/disconnected_graph.png)
 
-                           or
-
 ![Disconnected Graph](./media/disconnected_graph_1.png)
 
 ### Directed Acyclic Graphs (DAG)
