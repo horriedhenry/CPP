@@ -67,17 +67,19 @@ When every node has path to other node.
 
 ### Disconnected Graph
 
+An undirected graph that is not connected is called a disconnected graph.
+
 ![Disconnected Graph](./media/disconnected_graph.png)
 
-A graph in which some vertices are not connected by any edge.
+                           or
+
+![Disconnected Graph](./media/disconnected_graph_1.png)
 
 ### Directed Acyclic Graphs (DAG)
 
 ![DAG](./media/dag.png)
 
 DAGs are **directed graphs with no cycles**. These graphs play an important role in representing structures with dependencies. Several efficient algorithms exist to operate on DAGs.
-
-**Cool fact :** All **out-trees** are DAGs but not all DAGs are not **out-trees**
 
 ## Special Graphs
 
@@ -91,13 +93,15 @@ A **tree** is an undirected graph with no cycle,or it is a connected `acyclic` g
 
 A **rooted tree** is a tree with a **designated root node** where every edge either points away from or towards root node. When edges point away from the root the graph is called an **arborescence (out-tree)** and **anti-arborescence (in-tree)** otherwise.
 
+**Cool fact :** All **out-trees** are DAGs but not all DAGs are not **out-trees**
+
 ### Bipartite Graph
 
 ![Bipartite Graph](./media/bipartiate_graph.png)
 
-A **bipartite graph** is on whose vertices can be split into two independent groups U, V such that every edge connects between U and V.
+A **bipartite graph** is a graph where the vertices can be divided into two disjoint sets such that all edges connect a vertex in one set to a vertex in another set. There are no edges between vertices in the disjoint sets
 
-Other defintions exist such as: The graph is two colurable or there is not odd length cycle.
+**TODO** : Understand what the above crappy definition means.
 
 ### Complete Graph
 
