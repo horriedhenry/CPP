@@ -167,3 +167,127 @@ This representation is seldomly used because of it's lack of structure. However,
 1. Less space efficient for denser graphs.
 2. Edge weight lookup is O(E).
 
+# Common Graph Theory Problems
+
+### For the upcomming problems ask yourself : 
+
+1. Is the graph directed or undirected ?
+2. Are the edges of the graph weighted?
+3. Is the graph I will encounter likely to be sparse or dense with edges?
+4. Should I use an adjacency matrix, adjacency list, and edge list or other structure to represent the graph efficiently ?
+
+### Shortest path problem
+
+Given a weighted graph, find the shortest path of edges from node A to node B.
+
+![shortest path initial](./media/shortest_path_initial.png)
+
+The algorithm should return the shortest path from start to end, let's say the algorithm returned this...
+
+![shortest path](./media/shortest_path_path.png)
+
+Algorithms : BFS (unweighted graph), Dijkstra's, Bellman-Ford, Floyd-Warshall, A* and many more.
+
+### Connectivity
+
+Does there exist a path between node A and node B?
+
+![Connectivity initial](./media/connectivity_initial.png)
+
+![Connectivity Final](./media/connectivity_connection.png)
+
+Typical Solution : Use Union Find data structure or any search algorithm (e.g DFS).
+
+### Negetive Cycles
+
+Does my weighted **digraph** have any negative cycles? If so, where?
+
+![Negetive Cycles Initial](./media/negetive_cycle_initial.png)
+
+In this graph nodes 1, 2 and 3 form a negetive cycle. If you cycle thought the nodes you will end up with a total cost of `-1`, infact you can cycle endlessly getting smaller and smaller costs. It's like a trap you can never escape.
+
+![Negetive Cycles Final](./media/negetive_cycle_cycle.png)
+
+Can be benefitial, suppose we are trading currencies across an exchange or multiple exchanges, currency prices tend to remain consistant across exchanges like exchanging USD to EUROS or other currencies. TODO : Learn about this example and Negetive cycles in depth later...
+
+Algorithms : Bellman-Ford and Floyd-Warshall.
+
+### Strongly Connected Components
+
+**Strongly Connected Components (SCCs)** can be thought of as **self-contained cycles** with a **directed graph** where every vertex in a given cycle can reach every other vertex in the same cycle.
+
+![Strongly Connected Components](./media/strongly_connected_components.png)
+
+Algorithms : Tarjan's and Kosaraju's algorithm.
+
+### **Travelling Salesman Problem (TSP)** 
+
+"Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?" - Wiki
+
+![Travelling Salesman](./media/travelling_salesman.png)
+
+For example, the graph on the right is a possible **TSP** of the graph on the left. 
+
+The **TSP** problem is **NP-Hard** meaning it's a very computationally challenging problem. This is unfortunate because the **TSP** has several very important applications.
+
+Algorithms : Held-Karp (Using Dynamic Programming), branch and bound approach and many approximation algorithms (such as **Ant Colony** optimization).
+
+### Bridges
+
+Finding Bridges in a Graph....
+
+A **bridge / cut edge** is any edge in a graph whose removal increases the number of connected components.
+
+![Bridge](./media/bridge_initial.png)
+
+The edges hilighted in pink are bridges.
+
+![Bridge Removal](./media/bridge_removal.png)
+
+Bridges are important in graph theory because they often hint at weak points, bottlenecks or vulnerabilities in a graph. Think of bridges like a bride between islands, if you destroy the bridege you cannot reach the other island and vise-versa.
+
+### Articulation points
+
+Related to bridges but not the same..
+
+An **articulation point / cut vertex** is any node in a graph whose removal increases the number of connected components.
+
+Articulation points are hilighted in pink.
+
+![Articulation points](./media/articulation_points.png)
+
+Articulation points are important in graph theory because they often hint at weak points, bottlenecks or vulnerabilities in a graph.
+
+### Minimum Spanning Tree (MST)
+
+A **minimum spanning tree (MST)** is a subset of the edges of a connected, edge-weighted graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight. - Wiki
+
+In summary it's a tree, meaning it has no cycles and it spans the graph at a minimum cost (hence the name MST).
+
+![MST Initial](./media/mst_initial.png)
+
+One of the possible **MST's** for the graph above is....
+
+![MST Spanning](./media/mst_possible_spanning.png)
+
+This **MST** has a total weight of 14. And least cost is 12.
+
+**Note** All **MST's** of a graph have **same minimal cost** but are not necessarily identical. All MST's on a graph are not always unique.
+
+**MST's** are seen in many applications including : Designing a least cost network, circuit desigh, transportation networks, etc....
+
+Algorithms : Kruskal's, Prim's & Borůvka's algorithm.
+
+### **Network Flow : Max Flow**
+
+Q: With an infinite input source how much "flow" can we push through the network?
+
+Flow networks are networks where edge weights represent capacities in some sence... capacities might be the things like the maximum no of cars that can fit on a road or maximum amount of volume that can flow through a pipe or even the no.of boats the river can sustain without distroying the environment.
+
+![Flow Network](./media/network_flow.png)
+
+Suppose the edges are roads with cars, pipes with water or hallways packed with people. Flow represents the volume of water allowed to flow through the pipes, the no.of cars the roads can sustain in a traffic and the maximum amount of people that can navigate through the hallways.
+
+With these maximum flow problems we can identify the bottlenecks that slow down the whole network and fix the edges that have lower capacities.
+
+Algorithms : Ford-Fulkerson, Kdmonds-Karp & Dinic's algorithm.
