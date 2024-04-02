@@ -1,1 +1,2 @@
-g++ main.cpp -o a && ./a
+g++ ./vec.cpp -o a && ./a
+rm ./a
