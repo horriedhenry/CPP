@@ -1,2 +1,2 @@
-g++ ./1_10.cpp -o a && ./a
-rm -rf ./a
+g++ ./2_6.cpp -o a && ./a
+rm ./a
