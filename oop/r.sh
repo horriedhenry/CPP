@@ -1,2 +1,3 @@
-g++ ./constructor_des.cpp -o a && ./a
-rm -rf ./a
+g++ ./_01.cpp -o a
+./a
+rm ./a
