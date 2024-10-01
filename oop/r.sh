@@ -1,3 +1,3 @@
-g++ ./_02.cpp -o a
+g++ ./deep_copy.cpp -o a
 ./a
 rm ./a
