@@ -1,3 +1,3 @@
-g++ ./_01.cpp -o a
+g++ ./_02.cpp -o a
 ./a
 rm ./a
