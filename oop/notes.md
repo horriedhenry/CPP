@@ -375,3 +375,135 @@ henry
 ![four](./assets/4four.png)
 
 ![five](./assets/5five.png)
+
+#### Destructor
+
+A destructor in c++ is a special member function that is automatically called when an object of the class is destroyed (either when it goes out of scope or is explicitly deleted). It is used to clear any resources held by the object on the heap (dynamic memory allocated variables etc). It does not directly free up memory occupied by the entire object itself, especially if the object is stack allocated (more on this further).
+
+```c++
+class Ex
+{
+    ~Ex()
+    {
+        // clean up
+    }
+};
+```
+
+- User defined destructor is useful when we use deep copy, like we did for `cgpaPtr`. Here we will clear any dynamically allocated memory.
+
+```c++
+~Student()
+{
+    std::cout << "delete cgpaPtr\n";
+    delete cgpaPtr;
+}
+```
+
+- If we allocate memory manually when creating an object, then we have to free / delete that object explicitly using `delete objName`.
+
+```c++
+Student* s3 = new Student();
+delete s3;
+```
+
+- If `delete s3` is not used the compiler will not call the destructor for `s3` object nor will it clear memory for the `s3` object itself let alone the `cgpaPtr`.
+
+##### Calling destructor explicitly
+
+###### Case 1 using `delete s3`
+
+- `delete s3` will ensure the destructor is called which clear heap memory for `cgpaPtr` and it also frees up memory for the entire object from heap.
+
+
+###### Case 2 using `s3->~Student()`
+
+- `s3->~Student()` will only clear memory for `cgpaPtr` but will not free up memory that is used by `s3` object itself.
+
+###### Case 3 using `s3->~Student()` and `delete s3`
+
+```c++
+Student* s3 = new Student();
+s3->~Student();
+delete s3;
+```
+- In this case the destructor is called twice one with `s3->~Student()` and again automatically with `delete s3`. And the compiler will complain.
+
+```console
+free(): double free detected in tcache 2
+```
+- The error is caused when trying to delete memory contents of `cgpaPtr` i.e value held by memory not the memory itself.
+
+###### Case 4
+
+```c++
+
+~Student()
+{
+    std::cout << this->name <<" : delete cgpaPtr\n";
+    delete cgpaPtr;
+}
+
+int main (int argc, char *argv[])
+{
+    Student s1("henry", 7.5);
+
+    Student s2(s1);
+    *(s2.cgpaPtr) = 5;
+
+    s2.~Student();
+    s1.~Student();
+
+    return 0;
+}
+```
+
+```console
+henry : delete cgpaPtr
+other : delete cgpaPtr
+other : delete cgpaPtr
+free(): double free detected in tcache 2
+```
+
+- solution just dont call the destructor explicitly, as the object is stack allocated.
+
+```c++
+int main (int argc, char *argv[])
+{
+    Student s1("henry", 7.5);
+
+    Student s2(s1);
+    *(s2.cgpaPtr) = 5;
+
+    // s1.~Student();
+    // s2.~Student();
+
+    return 0; // s1 and s2 objects will be cleared from stack memory and the destructor will also be called as they go out of scope here.
+}
+```
+
+- The proper way
+
+```c++
+
+int main (int argc, char *argv[])
+{
+    Student s1("henry", 7.5);
+
+    Student s2(s1);
+    s2.changeInfo("other", 10);
+    *(s2.cgpaPtr) = 5;
+
+    Student* s3 = new Student();
+    delete s3;
+
+    return 0;
+}
+```
+- console...
+
+```console
+student : delete cgpaPtr
+other : delete cgpaPtr
+henry : delete cgpaPtr
+```
