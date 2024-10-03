@@ -1,3 +1,3 @@
-g++ ./deep_copy.cpp -o a
+g++ ./inheritance.cpp -o a
 ./a
 rm ./a

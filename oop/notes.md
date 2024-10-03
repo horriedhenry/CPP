@@ -30,7 +30,7 @@ class Name
 
 - `public :` data & methods accessible for everyone.
 
-- `protected :` data & methods accessible inside class & to it's derived class (inheritence).
+- `protected :` data & methods accessible inside class & to it's derived class (inheritance).
 
 #### getter & setter
 
@@ -507,3 +507,266 @@ student : delete cgpaPtr
 other : delete cgpaPtr
 henry : delete cgpaPtr
 ```
+
+### Inheritance
+
+When properties / attributes & member functions of **base** class on to the **derived** class.
+
+- Inheritance is used for code reusability. When a base class has some same functionality as derived class instead of rewriting all the logic you can inherit all that from derived class.
+
+- A simple example for inheritance
+
+```c++
+#include <iostream>
+
+class Person
+{
+public:
+    std::string name;
+    int age;
+
+    Person()
+    {
+        std::cout << "person constructor\n";
+    }
+};
+
+class Student : public Person
+{
+public:
+    int rollno;
+
+    void getInfo()
+    {
+        std::cout << this->name << "\n";
+        std::cout << this->age << "\n";
+        std::cout << this->rollno << "\n";
+    }
+};
+
+int main (int argc, char *argv[])
+{
+    Student s;
+    s.name = "henry";
+    s.age = 21;
+    s.rollno= 45;
+
+    s.getInfo();
+    return 0;
+}
+```
+
+- **Student** class is inheriting from **Person** class. Both **name** and **age** are inherited, and the only unique attribute of **Student** class is **rollno**.
+
+#### syntax
+
+```c++
+class Student : public Person
+{
+    // student class
+};
+```
+
+- `public` defines the mode of inheritance i.e inherit all the public attributes and methods to **Student** class and they should be public. i.e every public attribute and method of Person class is now under public access Modifier in Student class.
+
+
+```c++
+class Student : private Person
+{
+    // student class
+};
+```
+
+- `private` means inherit all the public attributes and member functions from Student class and they should be under private access modifier in Student class. It does not mean inherit all the private attributes and member functions.
+
+##### Modes of Inheritance
+
+![Modes of Inheritance](./assets/modes_of_inheritance.png)
+
+- If the `derived class` uses `public` mode of inheritance `class Student : public Person` then all the `public` properties of `base / parent class` will be `public` in the `derived` class. And in protected mode `class Student : protected Person`all the `public` properties of `base class` will be `protected` in `derived` class. And in private mode `class Student : private Person` all the `public` properties of `base class`will be `private` in `derived class`.
+
+- If you want to inherit `private` properties from a base class, then just put all the private properties under protected in the base class. Then when you use `private` mode of inheritance `class Student : private Person` all the `protected` properties in the `base` class will be `private` in `derived` class. And when you use `public` mode `class Student : public Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class. When you use `protected` mode `class Student : protected Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class.
+
+```markdown
+Inheritance does not allow any class to inherit private attributes and methods of a class. A class can only inherit everything under public access modifier and can make them private, public or protected in the base class (or child class).
+```
+
+#### Order in which constructors & destructor are called
+
+```c++
+
+Person()
+{
+    std::cout << "person constructor\n";
+}
+
+Student()
+{
+    std::cout << "student constructor\n";
+}
+
+main()
+{
+    Student s;
+    s.name = "henry";
+    s.age = 21;
+    s.rollno= 45;
+
+}
+```
+
+```console
+person constructor
+Student constructor
+```
+
+- When an object is created for a base class(Student) which inherits from derived class (Person), then the constructor of the derived class is called first and then constructor for base class is called.
+
+```c++
+~Person()
+{
+    std::cout << "person constructor\n";
+}
+
+~Student()
+{
+    std::cout << "student constructor\n";
+}
+
+main()
+{
+    Student s;
+    s.name = "henry";
+    s.age = 21;
+    s.rollno= 45;
+}
+```
+
+```console
+person constructor
+Student constructor
+
+Student destructor
+person destructor
+```
+
+- In case of a destructor first the destructor of the derived class is called and then the destructor of base class is called.
+
+#### parameterized constructor & explicitly calling the constructor for the base class
+
+```c++
+Person(std::string name, int age)
+{
+    this->name = name;
+    this->age = age;
+}
+
+Student(std::string name, int age, int rollno) : Person(name, age)
+{
+    this->rollno = rollno;
+}
+
+int main()
+{
+    Student s("henry", 21, 69);
+    s.getInfo();
+}
+```
+
+- We know that the constructor of the base class is called first before derived class. When the **Student** constructor is called it needs **name** and **age** but they are in **Person** class so we have to call the constructor for the base class explicitly, if you just use `Student(std::string name, int age, int rollno)` it will simply not work it will show this error
+
+```console
+│clang: Constructor for 'Student' must explicitly initialize the base class 'Person' which does not have a default co│
+│nstructor [missing_default_ctor]                                                                                    │
+```
+- compiler error 
+
+```console
+./inheritance.cpp: In constructor ‘Student::Student(std::string, int, int)’:
+./inheritance.cpp:22:5: error: no matching function for call to ‘Person::Person()’
+   22 |     {
+      |     ^
+./inheritance.cpp:9:5: note: candidate: ‘Person::Person(std::string, int)’
+    9 |     Person(std::string name, int age)
+      |     ^~~~~~
+./inheritance.cpp:9:5: note:   candidate expects 2 arguments, 0 provided
+./inheritance.cpp:3:7: note: candidate: ‘Person::Person(const Person&)’
+    3 | class Person
+      |       ^~~~~~
+./inheritance.cpp:3:7: note:   candidate expects 1 argument, 0 provided
+./inheritance.cpp:3:7: note: candidate: ‘Person::Person(Person&&)’
+./inheritance.cpp:3:7: note:   candidate expects 1 argument, 0 provided
+```
+
+#### Explanation (ChatGPT)
+
+The syntax you’ve highlighted is part of a **constructor initializer list** in C++. It is used when a derived class needs to initialize members of its base class in addition to its own members. Let's break it down:
+
+```cpp
+Student(std::string name, int age, int rollno) : Person(name, age)
+```
+
+##### Components of the Syntax:
+1. **Constructor declaration:**
+   ```cpp
+   Student(std::string name, int age, int rollno)
+   ```
+   This is the constructor of the `Student` class. It takes three parameters: `name`, `age`, and `rollno`. These parameters are used to initialize both the base class (`Person`) and the derived class (`Student`) members.
+
+2. **Initializer list:**
+```cpp
+: Person(name, age)
+```
+   This is the **initializer list** part, which initializes the base class (`Person`) using its own constructor before the body of the `Student` constructor is executed. The syntax `Person(name, age)` calls the constructor of the `Person` class, passing `name` and `age` arguments.
+
+##### Why use an initializer list?
+
+1. **Base class initialization:** When you have a derived class, C++ requires that the base class constructor is called before the derived class constructor starts executing. The initializer list allows the base class (`Person` in this case) to be initialized with the arguments `name` and `age`. Without the initializer list, you would not be able to directly initialize the base class members this way.
+   
+2. **Efficiency:** Initializer lists allow for direct initialization of base class members and member variables, avoiding extra steps such as default construction followed by reassignment, which might occur if initialization was done inside the constructor body.
+
+##### Step-by-step execution:
+1. When you create a `Student` object with:
+   ```cpp
+   Student s("henry", 21, 69);
+   ```
+   the constructor `Student(std::string name, int age, int rollno)` is called with the arguments `"henry"`, `21`, and `69`.
+
+2. The **initializer list** `: Person(name, age)` ensures that the base class (`Person`) constructor is invoked with `"henry"` and `21`, initializing the `name` and `age` members of the `Person` class:
+   ```cpp
+   Person(std::string name, int age)
+   {
+       this->name = name;
+       this->age = age;
+   }
+   ```
+
+3. After the base class (`Person`) is initialized, the derived class (`Student`) constructor body is executed:
+   ```cpp
+   {
+       this->rollno = rollno;
+   }
+   ```
+   This sets the `rollno` member of the `Student` class to `69`.
+
+4. Finally, the `getInfo` function is called on the `Student` object, which prints the `name`, `age`, and `rollno` values.
+
+##### Why not initialize inside the constructor body?
+While you could initialize base class members or other members inside the constructor body, doing so with an initializer list is more efficient. It directly calls the constructor of the base class and initializes the member variables in one step rather than initializing them with default values and then reassigning them.
+
+For example, if you did the initialization inside the constructor body, it might look like this:
+
+```cpp
+Student(std::string name, int age, int rollno)
+{
+    Person(name, age); // This would not work the way you expect!
+    this->rollno = rollno;
+}
+```
+
+The above would not work because you can't call a constructor on an existing object (like `Person` in this case) in the constructor body. You need the initializer list to ensure the base class constructor is invoked before the derived class constructor starts executing.
+
+##### Summary:
+- The `: Person(name, age)` is part of an initializer list that calls the `Person` constructor to initialize the `name` and `age` members inherited from the `Person` class.
+- The initializer list ensures that base class members are initialized before the derived class constructor body is executed.
+- This approach is efficient and necessary to properly initialize base class members in C++.
