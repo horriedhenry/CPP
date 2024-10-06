@@ -510,7 +510,7 @@ henry : delete cgpaPtr
 
 ### Inheritance
 
-When properties / attributes & member functions of **base** class on to the **derived** class.
+When properties / attributes & member functions of **base** class are passed on to the **derived** class.
 
 - Inheritance is used for code reusability. When a base class has some same functionality as derived class instead of rewriting all the logic you can inherit all that from derived class.
 
