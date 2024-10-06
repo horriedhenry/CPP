@@ -18,7 +18,7 @@ class Student : public Person
 public:
     int rollno;
 
-    Student(std::string name, int age, int rollno)/*  : Person(name, age) */
+    Student(std::string name, int age, int rollno) : Person(name, age)
     {
         this->rollno = rollno;
     }

@@ -1,4 +1,4 @@
-#### Class & Object
+### Class & Object
 
 `Class :` A class is like an object that defines the structure and behaviour of an object. It describes how an object should look like (it's attributes or data) and what it can do (it's members or functions).
 
@@ -8,7 +8,7 @@
 
 - **Class** is like a blueprint of/for these entities.
 
-#### Syntax
+### Syntax
 
 ```c++
 class Name
@@ -24,7 +24,7 @@ class Name
 };
 ```
 
-#### Access Modifiers
+### Access Modifiers
 
 - `private :` data / attributes  & methods / functions  accessible inside class. By default all the attributes and methods of a class are private.
 
@@ -32,13 +32,13 @@ class Name
 
 - `protected :` data & methods accessible inside class & to it's derived class (inheritance).
 
-#### getter & setter
+### getter & setter
 
 - `setter `  set / initialize private values of a class with a value.
 
 - `getter ` get / access private values of a class, ex : get value of a private variable, or print the value of a private variable.
 
-#### Encapsulation
+### Encapsulation
 
 - Encapsulation is **wrapping up** of data & member functions in a single unit called class.
 
@@ -48,7 +48,7 @@ class Name
 
 - Encapsulation also helps in **data hiding** i.e making some attributes private so that user canno access them directly when creating an object. You can either have a getter or a setter to access these "hidden" attributes or just don't allow the user to access them at all.
 
-#### Constructor
+### Constructor
 
 Constructor is a special method that is invoked automatically at the time of object creation. And it is used for initializing the object. A constructor has these rules..
 
@@ -79,13 +79,13 @@ Name obj;
 
 - Constructor is used for initializing the object, ex.. we can assign values for private class attributes or call a method of that class, or we can do anything at the time of initializing an object using the constructor.
 
-##### Types of constructor's
+#### Types of constructor's
 
 - non-parameterized , default constructor does not have any parameters.
 - parameterized (has parameters, user defined)
 - copy
 
-##### Constructor overloading
+#### Constructor overloading
 
 - You can have multiple constructor's with different parameters. This is called as constructor overloading (kind of similar to function overloading). 
 
@@ -95,7 +95,7 @@ Name obj;
 
 - Constructor overloading is a example of polymorphism. One of the example for polymorphism is constructor overloading.
 
-#### this pointer
+### this pointer
 
 - `this` is a special pointer in c++ that points to the current instance of the class inside a non-static member function. It allows the object to refer to itself and all it's member functions and attributes.
 
@@ -120,7 +120,7 @@ public:
 - **this->attribute** is equivalent to ***(this).attribute**. It will be dereferenced first which evaluates to an object and then `.` is used to access the object attributes.
 
 
-#### Shallow copy & Deep copy constructor
+### Shallow copy & Deep copy constructor
 
 A **shallow** copy of an object copies all the member values from one object to another. And the default copy constructor does shallow copy.
 
@@ -180,7 +180,7 @@ someone
 
 - The default copy constructor takes a reference to an object, and copies every variables from that object to the new object.
 
-##### User defined copy constructor (shallow)
+#### User defined copy constructor (shallow)
 
 ```c++
 Student(Student& orgObj)
@@ -202,7 +202,7 @@ someone
 
 - shallow copy is fine in most cases but when it comes to a variable that has dynamically allocated memory instead of statically allocated memory on stack.. shallow does not work as intended...
 
-#### Issue with shallow copy
+### Issue with shallow copy
 
 - The example below shows the issue with shallow copy for dynamically allocated memory for a variable.
 
@@ -322,7 +322,7 @@ s1.getInfo();
 
 - to solve this we use deep copy for dynamically allocated member variables.
 
-#### Deep copy
+### Deep copy
 
 - Deep copy constructor not only copies the member values but also makes copies of dynamically allocated memory that the member point to.
 
@@ -376,7 +376,7 @@ henry
 
 ![five](./assets/5five.png)
 
-#### Destructor
+### Destructor
 
 A destructor in c++ is a special member function that is automatically called when an object of the class is destroyed (either when it goes out of scope or is explicitly deleted). It is used to clear any resources held by the object on the heap (dynamic memory allocated variables etc). It does not directly free up memory occupied by the entire object itself, especially if the object is stack allocated (more on this further).
 
@@ -409,18 +409,18 @@ delete s3;
 
 - If `delete s3` is not used the compiler will not call the destructor for `s3` object nor will it clear memory for the `s3` object itself let alone the `cgpaPtr`.
 
-##### Calling destructor explicitly
+#### Calling destructor explicitly
 
-###### Case 1 using `delete s3`
+##### Case 1 using `delete s3`
 
 - `delete s3` will ensure the destructor is called which clear heap memory for `cgpaPtr` and it also frees up memory for the entire object from heap.
 
 
-###### Case 2 using `s3->~Student()`
+##### Case 2 using `s3->~Student()`
 
 - `s3->~Student()` will only clear memory for `cgpaPtr` but will not free up memory that is used by `s3` object itself.
 
-###### Case 3 using `s3->~Student()` and `delete s3`
+##### Case 3 using `s3->~Student()` and `delete s3`
 
 ```c++
 Student* s3 = new Student();
@@ -434,7 +434,7 @@ free(): double free detected in tcache 2
 ```
 - The error is caused when trying to delete memory contents of `cgpaPtr` i.e value held by memory not the memory itself.
 
-###### Case 4
+##### Case 4
 
 ```c++
 
@@ -558,7 +558,7 @@ int main (int argc, char *argv[])
 
 - **Student** class is inheriting from **Person** class. Both **name** and **age** are inherited, and the only unique attribute of **Student** class is **rollno**.
 
-#### syntax
+### syntax
 
 ```c++
 class Student : public Person
@@ -579,7 +579,7 @@ class Student : private Person
 
 - `private` means inherit all the public attributes and member functions from Student class and they should be under private access modifier in Student class. It does not mean inherit all the private attributes and member functions.
 
-##### Modes of Inheritance
+#### Modes of Inheritance
 
 ![Modes of Inheritance](./assets/modes_of_inheritance.png)
 
@@ -588,10 +588,13 @@ class Student : private Person
 - If you want to inherit `private` properties from a base class, then just put all the private properties under protected in the base class. Then when you use `private` mode of inheritance `class Student : private Person` all the `protected` properties in the `base` class will be `private` in `derived` class. And when you use `public` mode `class Student : public Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class. When you use `protected` mode `class Student : protected Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class.
 
 ```markdown
-Inheritance does not allow any class to inherit private attributes and methods of a class. A class can only inherit everything under public access modifier and can make them private, public or protected in the base class (or child class).
+Inheritance does not allow any class to inherit private attributes and methods
+of a class. A class can only inherit everything under public access modifier
+and can make them private, public or protected in the base class (or child
+class).
 ```
 
-#### Order in which constructors & destructor are called
+### Order in which constructors & destructor are called
 
 ```c++
 
@@ -652,7 +655,7 @@ person destructor
 
 - In case of a destructor first the destructor of the derived class is called and then the destructor of base class is called.
 
-#### parameterized constructor & explicitly calling the constructor for the base class
+### parameterized constructor & explicitly calling the constructor for the base class
 
 ```c++
 Person(std::string name, int age)
@@ -698,7 +701,7 @@ int main()
 ./inheritance.cpp:3:7: note:   candidate expects 1 argument, 0 provided
 ```
 
-#### Explanation (ChatGPT)
+### Explanation (ChatGPT)
 
 The syntax you’ve highlighted is part of a **constructor initializer list** in C++. It is used when a derived class needs to initialize members of its base class in addition to its own members. Let's break it down:
 
@@ -706,7 +709,7 @@ The syntax you’ve highlighted is part of a **constructor initializer list** in
 Student(std::string name, int age, int rollno) : Person(name, age)
 ```
 
-##### Components of the Syntax:
+#### Components of the Syntax:
 1. **Constructor declaration:**
    ```cpp
    Student(std::string name, int age, int rollno)
@@ -719,13 +722,13 @@ Student(std::string name, int age, int rollno) : Person(name, age)
 ```
    This is the **initializer list** part, which initializes the base class (`Person`) using its own constructor before the body of the `Student` constructor is executed. The syntax `Person(name, age)` calls the constructor of the `Person` class, passing `name` and `age` arguments.
 
-##### Why use an initializer list?
+#### Why use an initializer list?
 
 1. **Base class initialization:** When you have a derived class, C++ requires that the base class constructor is called before the derived class constructor starts executing. The initializer list allows the base class (`Person` in this case) to be initialized with the arguments `name` and `age`. Without the initializer list, you would not be able to directly initialize the base class members this way.
    
 2. **Efficiency:** Initializer lists allow for direct initialization of base class members and member variables, avoiding extra steps such as default construction followed by reassignment, which might occur if initialization was done inside the constructor body.
 
-##### Step-by-step execution:
+#### Step-by-step execution:
 1. When you create a `Student` object with:
    ```cpp
    Student s("henry", 21, 69);
@@ -751,7 +754,7 @@ Student(std::string name, int age, int rollno) : Person(name, age)
 
 4. Finally, the `getInfo` function is called on the `Student` object, which prints the `name`, `age`, and `rollno` values.
 
-##### Why not initialize inside the constructor body?
+#### Why not initialize inside the constructor body?
 While you could initialize base class members or other members inside the constructor body, doing so with an initializer list is more efficient. It directly calls the constructor of the base class and initializes the member variables in one step rather than initializing them with default values and then reassigning them.
 
 For example, if you did the initialization inside the constructor body, it might look like this:
@@ -766,7 +769,7 @@ Student(std::string name, int age, int rollno)
 
 The above would not work because you can't call a constructor on an existing object (like `Person` in this case) in the constructor body. You need the initializer list to ensure the base class constructor is invoked before the derived class constructor starts executing.
 
-##### Summary:
+#### Summary:
 - The `: Person(name, age)` is part of an initializer list that calls the `Person` constructor to initialize the `name` and `age` members inherited from the `Person` class.
 - The initializer list ensures that base class members are initialized before the derived class constructor body is executed.
 - This approach is efficient and necessary to properly initialize base class members in C++.
