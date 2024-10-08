@@ -1,6 +1,6 @@
 ### Class & Object
 
-`Class :` A class is like an object that defines the structure and behaviour of an object. It describes how an object should look like (it's attributes or data) and what it can do (it's members or functions).
+`Class :` A class is like a template that defines the structure and behaviour of an object. It describes how an object should look like (it's attributes or data) and what it can do (it's members or functions).
 
 `Object :` An Object is an instance of a class. While a class is like a general template, an object is an actual thing that is created based on that template.
 
@@ -42,9 +42,7 @@ class Name
 
 - Encapsulation is **wrapping up** of data & member functions in a single unit called class.
 
-- Grouping data / attributes or properties and member functions / methods into a single unit and encapsulating it or putting it inside one unit(class) is called encapsulation.
-
-- Creating a class with attributes and methods / functions is called as encapsulating in a single unit called class
+- Grouping attributes and methods into a single unit and encapsulating it or putting it inside one unit(class) is called encapsulation.
 
 - Encapsulation also helps in **data hiding** i.e making some attributes private so that user canno access them directly when creating an object. You can either have a getter or a setter to access these "hidden" attributes or just don't allow the user to access them at all.
 
@@ -56,10 +54,7 @@ Constructor is a special method that is invoked automatically at the time of obj
 - Does not have a return type.
 - Constructor is called once (automatically), at the time of object creation.
 - Memory allocation happens when the constructor is called, which happens at the time of object creation.
-
----
-
-- When there is not constructor for a class the compiler will create a constructor.
+- When there is no constructor for a class the compiler will create a constructor implicitly.
 - Memory is not allocated for a class until an object is initialized.
 
 ```c++
@@ -74,9 +69,7 @@ private:
 Name obj;
 ```
 - Now variable `x` will have a memory address, since it is initialized.
-
 - This memory allocation happens when the constructor is called, it be a user defined or by the compiler.
-
 - Constructor is used for initializing the object, ex.. we can assign values for private class attributes or call a method of that class, or we can do anything at the time of initializing an object using the constructor.
 
 #### Types of constructor's
@@ -200,7 +193,7 @@ someone
 5
 ```
 
-- shallow copy is fine in most cases but when it comes to a variable that has dynamically allocated memory instead of statically allocated memory on stack.. shallow does not work as intended...
+- shallow copy is fine in most cases but when it comes to a variable that has dynamically allocated memory instead of statically allocated memory on stack.. shallow copy does not work as intended...
 
 ### Issue with shallow copy
 
@@ -277,7 +270,7 @@ henry
 
 - we did not mean to change the member variable of object `s1` all we did is change the values of object `s2`. But what happened is that...
 
-- We know that when `s1` object is created, the compiler will allocate a new memory location for that object and we know that each memory location is unique for every object. so when we use shallow copy to copy variables of `s1` to `s2`, the compiler will create new memory for `s2` object and copies every variable from `s1` to `s2`. When we don't have any variable that has dynamically allocated memory i.e the compiler will statically allocate memory in the stack we had no problem using shallow copy. But we have a variable `float* cgpaPtr` in Student class and it uses dynamically allocated memory (using `new`).. i.e `cgpaPtr` will be in `heap` instead of `stack` memory. and what happens is that...
+- We know that when `s1` object is created, the compiler will allocate a new memory location for that object and we know that each memory location is unique for every object. so when we use shallow copy to copy variables of `s1` to `s2`, the compiler will create new memory for `s2` object and copies every variable from `s1` to `s2`. When we don't have any variable that has dynamically allocated memory, we had no problem using shallow copy. But we have a variable `float* cgpaPtr` in Student class and it uses heap memory (using `new`). 
 
 - when we initialize `s1` using `Student s1("henry", 7.5)`, which invokes this..
 
@@ -290,7 +283,7 @@ Student(std::string&& name, float&& cgpa)
 }
 ```
 
-- for `s1` object the compiler will allocate memory in the stack and `name` variable will also be in stack, but for `cgpaPtr` we will use a new memory location in heap and then in that memory location we will store `cgpa` value that is passed in the `class constructor` and let's say that `cgpaPtr` is at `200` memory location, and it's value is `7.5`.
+- for `s1` object the compiler will allocate memory in the stack and `name` variable will also be in stack, but for `cgpaPtr` we will use a new memory location in heap  store `cgpa` value that is passed in the `class constructor` and let's say that `cgpaPtr` is at `200` memory location, and it's value is `7.5`.
 
 - now when we use shallow copy here..
 
@@ -432,7 +425,7 @@ delete s3;
 ```console
 free(): double free detected in tcache 2
 ```
-- The error is caused when trying to delete memory contents of `cgpaPtr` i.e value held by memory not the memory itself.
+- The error is caused when trying to delete memory contents of `cgpaPtr` i.e the first time we called `s3->~Student()` it cleared the value stored at `x` memory location and the pointer is no longer pointing to any memory location, so when the destructor is triggered again the pointer no longer points to anything so nothing can be freed.
 
 ##### Case 4
 
@@ -449,6 +442,7 @@ int main (int argc, char *argv[])
     Student s1("henry", 7.5);
 
     Student s2(s1);
+    s2.changeInfo("other", 10);
     *(s2.cgpaPtr) = 5;
 
     s2.~Student();
@@ -459,13 +453,30 @@ int main (int argc, char *argv[])
 ```
 
 ```console
-henry : delete cgpaPtr
 other : delete cgpaPtr
+henry : delete cgpaPtr
 other : delete cgpaPtr
 free(): double free detected in tcache 2
 ```
 
-- solution just dont call the destructor explicitly, as the object is stack allocated.
+- changing the print statement results in this output
+
+```c++
+~Student()
+{
+    delete cgpaPtr;
+    std::cout << this->name <<" : delete cgpaPtr\n";
+}
+```
+
+```console
+other : delete cgpaPtr
+henry : delete cgpaPtr
+free(): double free detected in tcache 2
+```
+- when it tries to delete a pointer which is no longer valid it will throw an error instead of printing the debug message. For now it does not matter in which order the objects are getting destroyed implicitly.
+
+- solution is simple just dont call the destructor explicitly(i may change my opinion), as the object is stack allocated.
 
 ```c++
 int main (int argc, char *argv[])
@@ -510,9 +521,9 @@ henry : delete cgpaPtr
 
 ### Inheritance
 
-When properties / attributes & member functions of **base** class are passed on to the **derived** class.
+When attributes & member functions of **base** (also called **parent**) class are passed on to the **derived** (also called **child**) class.
 
-- Inheritance is used for code reusability. When a base class has some same functionality as derived class instead of rewriting all the logic you can inherit all that from derived class.
+- Inheritance is used for code reusability. When a derived class shares same functionality as base class instead of rewriting all the logic you can inherit all that from base class.
 
 - A simple example for inheritance
 
@@ -523,7 +534,7 @@ class Person
 {
 public:
     std::string name;
-    int age;
+    int age{};
 
     Person()
     {
@@ -534,7 +545,7 @@ public:
 class Student : public Person
 {
 public:
-    int rollno;
+    int rollno{};
 
     void getInfo()
     {
@@ -583,7 +594,10 @@ class Student : private Person
 
 ![Modes of Inheritance](./assets/modes_of_inheritance.png)
 
-- If the `derived class` uses `public` mode of inheritance `class Student : public Person` then all the `public` properties of `base / parent class` will be `public` in the `derived` class. And in protected mode `class Student : protected Person`all the `public` properties of `base class` will be `protected` in `derived` class. And in private mode `class Student : private Person` all the `public` properties of `base class`will be `private` in `derived class`.
+- For derived class under public mode `class Student : public Person` all the properties under `public` access modifier in `Person` class will be `public` in `Student` class. And all the properties under `protected` in `Person` class will be `protected` in `Student` class. And `private` properties are not inherited at all. Or in other words..
+
+- For `derived` class under public mode all the properties under `public` access modifier in `base` class will be `public` in `derived` class. And all the properties under `protected` in `base` class will be `protected` in `derived` class. And `private` properties are not inherited at all.
+
 
 - If you want to inherit `private` properties from a base class, then just put all the private properties under protected in the base class. Then when you use `private` mode of inheritance `class Student : private Person` all the `protected` properties in the `base` class will be `private` in `derived` class. And when you use `public` mode `class Student : public Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class. When you use `protected` mode `class Student : protected Person` then all the properties under `protected` in `base` class will be `protected` in `derived` class.
 
@@ -623,7 +637,7 @@ person constructor
 Student constructor
 ```
 
-- When an object is created for a base class(Student) which inherits from derived class (Person), then the constructor of the derived class is called first and then constructor for base class is called.
+- When an object is created for a derived class(Student) which inherits from base class (Person), then the constructor of the base class is called first and then constructor for derived class is called.
 
 ```c++
 ~Person()
