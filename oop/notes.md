@@ -787,3 +787,33 @@ The above would not work because you can't call a constructor on an existing obj
 - The `: Person(name, age)` is part of an initializer list that calls the `Person` constructor to initialize the `name` and `age` members inherited from the `Person` class.
 - The initializer list ensures that base class members are initialized before the derived class constructor body is executed.
 - This approach is efficient and necessary to properly initialize base class members in C++.
+
+### Multi-level inheritance
+
+![multi-level inheritance](./assets/multi_level_inh.png)
+
+This occurs when a class is derived from another derived class, creating a chain of inheritance (a class inherits from a class that has already inherited from another class).
+
+```c++
+class Person
+{
+// base class 
+private:
+    // private members
+public:
+    // public members
+protected:
+    // protected members
+};
+
+class Student : public Person
+{
+    // derived from Person
+};
+
+class GradStudent : public Student
+{
+    // derived from Student (which already derived from Person)
+};
+
+```

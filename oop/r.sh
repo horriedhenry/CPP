@@ -1,3 +1,3 @@
-g++ ./inheritance.cpp -o a
+g++ ./multi_level_inheritance.cpp -o a
 ./a
 rm ./a
