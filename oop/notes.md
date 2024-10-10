@@ -817,3 +817,39 @@ class GradStudent : public Student
 };
 
 ```
+
+- Example Without constructors
+
+```c++
+class Person
+{
+public:
+    std::string name;
+    int age{};
+};
+
+class Student : public Person
+{
+public:
+    int rollNo{};
+};
+
+class GradStudent : public Student
+{
+public:
+    double cgpa{};
+};
+
+int main()
+{
+    GradStudent s;
+    s.name = "someone";
+    s.age = 22;
+    s.rollNo = 69;
+    s.cgpa = 9.9;
+
+    std::cout << s.name << "\n";
+    //... other print statements
+    return 0;
+}
+```

@@ -2,12 +2,9 @@
 
 class Person 
 {
-private:
-    int salary;
-
 public:
     std::string name;
-    int age;
+    int age{};
 
     Person(std::string name, int age)
     {
@@ -24,10 +21,9 @@ public:
 
 class Student : public Person
 {
-private:
-    int rollNo;
-
 public:
+    int rollNo{};
+
     Student(std::string name, int age, int rollNo) : Person(name, age)
     {
         this->rollNo = rollNo;
@@ -43,7 +39,7 @@ public:
 class GraduatedStudent : public Student
 {
 private:
-    double cgpa;
+    double cgpa{};
 
 public:
     GraduatedStudent(std::string name, int age, int rollNo, double cgpa) : Student(name, age, rollNo)
@@ -60,10 +56,6 @@ public:
 
 int main (int argc, char *argv[])
 {
-    // std::string name = "henry";
-    // int age = 12;
-    // int rollNo = 33;
-
     GraduatedStudent s("henry", 25, 444, 7.7);
 
     // s.Person::getInfo();
