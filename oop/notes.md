@@ -853,3 +853,39 @@ int main()
     return 0;
 }
 ```
+
+### Multiple inheritance
+
+Occurs when a class inherits from more than one base class.
+
+![multiple_inheritance](./assets/multiple_inheritance.png)
+
+```c++
+class Child : public BaseClass1, private BaseClass2, ... {
+    // member declarations
+}
+```
+
+A simple example
+
+```c++
+class Student
+{
+public:
+    std::string name;
+    int rollNo;
+};
+
+class Teacher
+{
+public:
+    std::string subject;
+    double salary;
+};
+
+class TeachingAssistant : public Student, public Teacher
+{
+public:
+    std::string researchArea;
+};
+```
