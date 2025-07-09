@@ -26,11 +26,17 @@ class Name
 
 ### Access Modifiers
 
+Access modifiers control the visibility (accessibility) of class members (variables and functions). There are three main access specifiers in C++.
+
 - `private :` data / attributes  & methods / functions  accessible inside class. By default all the attributes and methods of a class are private.
 
 - `public :` data & methods accessible for everyone.
 
 - `protected :` data & methods accessible inside class & to it's derived class (inheritance).
+
+When you declare a data member (like a variable or method) as private in a class, it can only be used or accessed directly inside the class’s own member functions — not from outside the class, not even by objects of that class, and not by derived (child) classes.
+
+"Only accessible within the class" means that the variable or function can be directly accessed only by other functions that are part of the same class definition.
 
 ### getter & setter
 
@@ -889,3 +895,13 @@ public:
     std::string researchArea;
 };
 ```
+
+### Hierarchical inheritance
+
+In hierarchical inheritance, more than one sub-class inherits from a single base class. There is one base class and multiple derived classess. And other classess will also inherit from these derived classess forming a tree like structure.
+
+![hierarchical1](./assets/hier1.jpeg)
+
+Both class B and class C(derived classess) are inheriting from class A(base class).
+
+![hierarchical2](./assets/hier2.jpeg)
