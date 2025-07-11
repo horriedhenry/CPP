@@ -40,9 +40,13 @@ When you declare a data member (like a variable or method) as private in a class
 
 ### getter & setter
 
-- `setter `  set / initialize private values of a class with a value.
+- `setter `  A function that sets or updates the value of a private variable in a class.
 
-- `getter ` get / access private values of a class, ex : get value of a private variable, or print the value of a private variable.
+- `getter ` A function that gets or returns the value of a private variable in a class.
+
+Setter → "Give" a value to an attribute.
+
+Getter → "Get" a value from an attribute.
 
 ### Encapsulation
 
@@ -77,6 +81,24 @@ Name obj;
 - Now variable `x` will have a memory address, since it is initialized.
 - This memory allocation happens when the constructor is called, it be a user defined or by the compiler.
 - Constructor is used for initializing the object, ex.. we can assign values for private class attributes or call a method of that class, or we can do anything at the time of initializing an object using the constructor.
+
+> default constructor does not automatically initialize built-in types — they will have garbage values unless you explicitly initialize them.
+
+```c++
+class Name {
+private:
+    int x; // this has a garbage value, whatever is in the memory location
+}
+```
+> However, class-type members will be initialized properly by their own default constructors.
+
+```c++
+class Name {
+private:
+    std::string s; // These are properly initialized (e.g., string → "", vector → empty, etc.).
+}
+```
+> Always initialize variables or attributes to avoid undefined behaviour
 
 #### Types of constructor's
 
