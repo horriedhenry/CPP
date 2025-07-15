@@ -24,6 +24,7 @@ Student(std::string name, int age, int rollno)
 ```
 - [x] Before revising about types of inheritence : Do this first, learn about what happend under the hood when inheriting from a class, is a temp object created ect.. and why is the above syntax wrong
     - [x] why wouldn't this work and what does, can't call a constructor on an existing object (like Person in this case) in the constructor body. Will inheritence create multiple objects or what does it refer to, why is it wrong ?
+- [ ] (at last); remove all the chatgpt explanation and type your own; and/or put all the questions at the end of the readme in questions section.
 
 # AtTheEnd
 - [ ] Do/Create a_project/multiple_projects that use all aspects of oop...like

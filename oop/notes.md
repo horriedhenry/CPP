@@ -949,16 +949,44 @@ Then your statement is **100% correct**:
 > This `Person(name, age)` creates a temporary object of `Person` class, and is destroyed after the execution of the statement `Person(name, age)`.
 > ✅ It is not a syntax or a proper way to initialize the base class part of an object.
 
-Indeed:
+---
 
-* You cannot "re-call" the constructor of the already existing **base class sub-object** (`Person` part of `Student`) this way.
-* The correct place to initialize the base class is in the **initializer list**, like:
+You **cannot manually call the base class constructor** (`Person` constructor in this case) on the **`Person` part of a `Student` object** inside the `Student` constructor body.
+
+By the time the `Student` constructor body runs, the **`Person` part of `Student` is already constructed** — using the default constructor if you didn’t specify otherwise.
+
+> ✅ So, the **only place to choose *which constructor* of the base class gets called** is in the **initializer list**:
 
 ```cpp
-Student(std::string name, int age, int rollno) 
-    : Person(name, age)
-{ ... }
+Student(std::string name, int age, int rollno)
+    : Person(name, age)   // calls the parameterized constructor of Person
+{
+    this->rollNo = rollno;
+}
 ```
+This way, the **base class part of the object gets initialized directly** during construction — not after.
+
+---
+
+* If the **base class** has a **default constructor**, it will be called automatically if the derived class doesn’t specify an initializer list.
+
+```cpp
+Student(std::string name, int age, int rollno) {}
+```
+
+* If the **base class** has **no default non-parameterized constructor**, the **derived class must initialize it** using the **initializer list**:
+
+```cpp
+Student(std::string name, int age, int rollno)
+    : Person(name, age)
+{}
+```
+
+* Writing `Person(name, age);` inside the derived class constructor body:
+
+  * ✅ Creates a **temporary object**, destroyed immediately.
+  * ❌ Does **not** initialize the base part of the current object.
+  * ❌ Will cause a **compilation error** if the base class has no default constructor(non-parameterized).
 
 ---
 
