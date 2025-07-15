@@ -1,0 +1,2 @@
+- [ ] how are functions loaded into memory, they are stored in (.text section) in the binary but are they loaded into memory once and are used from memory after.
+    - [ ] is the entire binary/executable loaded into memory ??

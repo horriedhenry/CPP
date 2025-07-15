@@ -816,6 +816,135 @@ The above would not work because you can't call a constructor on an existing obj
 - The initializer list ensures that base class members are initialized before the derived class constructor body is executed.
 - This approach is efficient and necessary to properly initialize base class members in C++.
 
+#### With parameterized and non-parameterized constructor's
+
+```cpp
+class Person {
+public:
+    std::string name;
+    int age{};
+
+    Person()
+    {
+        std::cout << "Person constructor called, non parameterized\n";
+        this->name = "";
+        this->age = 0;
+    }
+
+    // parameterised constructor
+    Person(const std::string& name, const int& age)
+    {
+        std::cout << "Person constructor called, parameterized\n";
+        this->name = name;
+        this->age = age;
+    }
+
+    ~Person()
+    {
+        std::cout << "Person destructor called\n";
+    }
+
+};
+
+class Student : public Person {
+public:
+    int rollNo{};
+
+    Student()
+    {
+        std::cout << "Student constructor called, non parameterized\n";
+        this->rollNo = 0;
+    }
+
+    // parameterised constructor
+    Student(const std::string& name, const int& age, const int& rollNo)
+    {
+        std::cout << "Student constructor called, parameterized\n";
+        this->name = name;
+        this->age = age;
+        this->rollNo = rollNo;
+    }
+
+    void setInfo(const std::string& name, const int& age, const int& rollNo)
+    {
+        this->name = name;
+        this->age = age;
+        this->rollNo = rollNo;
+    }
+
+    void getInfo()
+    {
+        std::cout << this->name << '\n';
+        std::cout << this->age << '\n';
+        std::cout << this->rollNo << '\n';
+    }
+
+    ~Student()
+    {
+        std::cout << "Student destructor called\n";
+    }
+};
+```
+case 1
+
+```cpp
+int main ()
+{
+    Student student;
+    student.getInfo();
+    return 0;
+}
+```
+output
+
+```console
+Person constructor called, non parameterized
+Student constructor called, non parameterized
+
+0
+0
+Student destructor called
+Person destructor called
+```
+case 2
+
+```cpp
+Student student("shiva", 23, 101);
+student.getInfo();
+```
+
+```console
+Person constructor called, non parameterised
+Student constructor called, parameterised
+shiva
+23
+101
+Student destructor called
+Person destructor called
+```
+
+Case 3 : calling constructor explicitly using constructor initializer list
+- no need to set name and ange in Student constructor as the Person constructor is called
+```cpp
+Student(const std::string& name, const int& age, const int& rollNo) : Person(name, age)
+{
+    std::cout << "Student constructor called, parameterised\n";
+    this->rollNo = rollNo;
+}
+```
+output
+
+```console
+Person constructor called, parameterised
+Student constructor called, parameterised
+shiva
+23
+101
+Student destructor called
+Person destructor called
+```
+- No matter what type of constructor we use, the constructor of base class is called first.
+
 ### Multi-level inheritance
 
 ![multi-level inheritance](./assets/multi_level_inh.png)
