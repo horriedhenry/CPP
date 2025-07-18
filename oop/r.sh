@@ -1,3 +1,3 @@
-g++ ./hierarchial_inh.cpp -o a
+g++ ./virtual_function_ex.cpp -o a
 ./a
 rm ./a

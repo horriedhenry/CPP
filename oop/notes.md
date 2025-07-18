@@ -1330,3 +1330,410 @@ In hierarchical inheritance, more than one sub-class inherits from a single base
 Both class B and class C(derived classess) are inheriting from class A(base class).
 
 ![hierarchical2](./assets/hier2.jpeg)
+
+simply Example !!!
+
+```c++
+class Person
+{
+public:
+    std::string name;
+    int age;
+};
+
+class Student : public Person {
+public:
+    int rollNo;
+};
+
+class Teacher : : public Person {
+public:
+    std::string subject;
+    double salary;
+};
+```
+
+### Hybrid inheritance
+
+Hybrid Inheritance in OOP is a combination of two or more types of inheritance (like single, multiple, multilevel, hierarchical) in a single program to form a complex inheritance structure.
+
+To simplify, in Hybrid Inheritance, any combination of these inheritance types can occur:
+
+- Single Inheritance
+
+- Multiple Inheritance
+
+- Multilevel Inheritance
+
+- Hierarchical Inheritance
+
+It's called hybrid because it mixes them together in one hierarchy or structure.
+
+### Polymorphism
+
+Polymorphism means "many forms".
+
+In programming, polymorphism is the ability of an object to take on different forms or behave differently depending on the context in which it is used.
+
+It allows a single interface (like a function name or operator) to behave differently based on the context, such as the data type or the object calling it.
+
+This enables the same function, method, or operator to perform different tasks depending on the situation, promoting code reusability, flexibility, and readability.
+
+Alternative (Simpler):
+
+> Polymorphism means an object can behave differently based on how it's used.
+
+#### Types of polymorphism
+
+1. Compile-time Polymorphism (Static / Early Binding)
+2. Run-time Polymorphism (Dynamic / Late Binding)
+
+##### Compile-time Polymorphism
+
+Occurs when the method to be invoked is decided at compile-time.
+
+###### Forms of compile-time polymorphism
+
+1. Function overloading
+2. Operator overloading
+
+###### 1. Function overloading
+
+Function overloading occurs when you have two or more functions with the same name but with:
+
+- A different number of parameters, or
+- The same number of parameters but with different types.
+
+A function is said to be overloaded when:
+
+- There are two or more functions with the same name but a different number of parameters.
+- There are functions with the same number of parameters, but the parameter types are different.
+
+⚠️ Note:
+> If two functions have the same name, the same number of parameters, and the same parameter types, but only differ in their return type, this does not qualify as function overloading.
+
+You will get an error:
+```console
+Functions that differ only in their return type cannot be overloaded.
+```
+
+```cpp
+class Calculator {
+public:
+    int add(int nbr1, int nbr2)
+    {
+        return nbr1 + nbr2;
+    }
+
+    double add(double nbr1, double nbr2)
+    {
+        return nbr1 + nbr2;
+    }
+};
+
+int main ()
+{
+    Calculator c;
+    std::cout << c.add(1, 2) << '\n';
+    std::cout << c.add(2.5, 2.5) << '\n';
+    return 0;
+}
+```
+
+###### Operator overloading
+
+```cpp
+class Point {
+public:
+    int var_x{0};
+    int var_y{0};
+
+    Point(int x, int y)
+    {
+        this->var_x = x;
+        this->var_y = y;
+    }
+
+    Point operator + (const Point& obj)
+    {
+        return Point(this->var_x + obj.var_x, this->var_y + obj.var_y);
+    }
+};
+
+int main ()
+{
+    Point x(1, 2);
+    Point y(2, 3);
+
+    Point z = x + y;
+    std::cout << z.var_x << '\n';
+    std::cout << z.var_y << '\n';
+
+    return 0;
+}
+```
+when we use this `Point z = x + y`
+
+It will call operator overloading method like this under the hood
+
+```cpp
+Point z = x.operator+(y);
+```
+object `x` is calling the overload method with object `y` as the argument. So inside the method. `this` refers to object `x`.
+
+So this `x.operator+(y)` expression will return a new `Point` object `Point(3, 5)`
+
+To simplify
+
+```cpp
+Point operator + (const Point& obj)
+```
+
+`x` is the object calling (`this` refers to x).
+`y` is passed as the `obj` parameter.
+
+A new `Point(3, 5)` is returned as the result of this expression in the method `return Point(this->var_x + obj.var_x, this->var_y + obj.var_y)`
+
+In Summary this statement `Point z = x + y;` does this
+
+1. `x + y` is called:
+- `x` → calling object (`this` inside `operator+`)
+- `y` → passed to `obj`
+
+2. Inside `operator+`:
+- `this->var_x` and `this->var_y` → from `x`
+- obj.x and obj.y → from y
+
+3. Returns:
+
+```cpp
+Point(this->var_x + obj.var_x, this->var_y + obj.var_y);
+```
+- That result is assigned to `z`.
+
+###### 2. Run-Time Polymorphism
+
+Occurs when the method to invoke is determined at runtime using virtual functions.
+
+Achieved via
+- Method Overriding
+- Using base class pointers or references to invoke derived class functions (more on this later)
+
+
+###### Virtual function
+
+A virtual function in C++ is a member function in a base class that you expect to be overridden in derived classes.
+
+It enables runtime polymorphism, allowing the function that gets called to depend on the actual type of the object, not the pointer/reference type.
+
+Example: Run-Time Polymorphism
+
+```cpp
+class Animal {
+public:
+    virtual void speak()
+    {
+        std::cout << "Animal speaks\n";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() override {
+        std::cout << "Dog barks\n";
+    }
+};
+
+class Cat : public Animal {
+public:
+    void speak() override {
+        std::cout << "Cat meows\n";
+    }
+};
+
+int main ()
+{
+    Animal* animal;
+    Dog dog;
+    Cat cat;
+
+    animal = &dog;
+    animal->speak(); // prints : dog barks
+
+    animal = &cat;
+    animal->speak(); // prints : cat meows
+}
+```
+Here, the `speak` method is virtual, so the function called is based on the actual object type at runtime (`Dog` or `Cat`), not the pointer type.
+
+Conclusion
+
+Polymorphism helps us write flexible and reusable code. It lets us use the same function name on different objects, and each object can behave in its own way when that function is called.
+
+To understand why virtual functions are useful let me just remove the `virtual` keyword and `override` keyword in the base and derived class, and let's see what happens. Here is the class without virtual function and override.
+
+```cpp
+class Animal {
+public:
+    void speak()
+    {
+        std::cout << "Animal speaks\n";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() {
+        std::cout << "Dog barks\n";
+    }
+};
+
+class Cat : public Animal {
+public:
+    void speak() {
+        std::cout << "Cat meows\n";
+    }
+};
+```
+Now let's try this once more..
+
+```cpp
+Animal* animal;
+Dog dog;
+Cat cat;
+
+animal = &dog;
+animal->speak(); // prints : Animal speak
+
+animal = &cat;
+animal->speak(); // prints : Animal speak
+
+Dog dog2;
+dog2.speak(); // prints : Dog barks
+```
+
+console
+
+```console
+Animal speaks
+Animal speaks
+Dog barks
+```
+When you call a function directly on the object itself, like:
+
+```cpp
+Dog dog2;
+dog2.speak();
+```
+- The derived class function (`Dog::speak`) is called whether or not you use virtual.
+- That's because the object type is known at compile-time — so the compiler chooses the correct function.
+
+But... when using a base class pointer or reference:
+
+```cpp
+Animal* animal = &dog;
+animal->speak();
+```
+
+- Without `virtual`: calls base class version → `Animal speaks`.
+- With `virtual`: calls derived class version → `Dog barks`.
+
+Why this happens is because..
+
+- Without `virtual`, the function call is resolved based on the pointer/reference type (`Animal*`).
+- With `virtual`, the function call is resolved based on the actual object (`Dog` or `Cat`) at runtime — this is runtime polymorphism.
+
+Why use virtual
+
+- We want to call derived class methods via a base class pointer or reference.
+- We want the behavior to depend on the actual object type, not the pointer type.
+
+I found the best example to demonstract the use case of `virtual` functions.
+
+Suppose you're building an app where users can draw various shapes like : Circle, Rectangle, Triangle. You want to store all the shapes in one list, and when the user clicks "Draw All", each shape knows how to draw itself differently.
+
+```cpp
+class Shape {
+public:
+    virtual void draw()
+    {
+        std::cout << "Drawing a generic shape\n";
+    }
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        std::cout << "Drawing a Circle\n";
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() override {
+        std::cout << "Drawing a Rectangle\n";
+    }
+};
+
+class Triangle : public Shape {
+public:
+    void draw() override {
+        std::cout << "Drawing a Triangle\n";
+    }
+};
+
+int main()
+{
+    // fyi i would use a vector when i don't know how many shapes i will draw,
+    // for now this is just a demo so just use an array
+
+    Circle circle;
+    Rectangle rectangle;
+    Triangle triangle;
+
+    std::vector<Shape*> shapes { &circle, &rectangle, &triangle };
+
+    for (auto itr = shapes.begin(); itr != shapes.end(); ++itr)
+    {
+        (*itr)->draw(); // Calls the correct draw() based on actual shape
+    }
+
+    return 0;
+}
+```
+console
+
+```console
+Drawing a Circle
+Drawing a Rectangle
+Drawing a Triangle
+```
+
+Why is this powerful?
+
+- You don't need to know what type of shape it is when drawing.
+
+- Later, when you want to draw a Hexagon or any new shape, you just need to create the object and add it to the same `shapes` vector.
+
+- You don't need to create a separate vector for each shape type or change the drawing loop — the existing logic will automatically call the correct `draw()` function for every shape.
+
+This is runtime polymorphism:
+
+- A base class pointer (`Shape*`) can point to any derived shape (`Circle`, `Rectangle`, etc.).
+- At runtime, the correct draw() is called for the actual object.
+
+Real-world Uses
+
+- UI libraries: All UI elements (buttons, sliders, text fields) might be treated as `Widget*` or `Component*` but draw themselves differently.
+- Graphics engines: Common base classes for rendering, but the actual object dictates how to render.
+
+Why Use Virtual Functions?
+
+We use virtual functions when:
+
+> We want to call the same function name on different objects but have each object perform its own specific behavior — even when accessed through a base class pointer or reference.
+
+A more friendly explanation:
+
+> Virtual functions allow me to treat different derived class objects uniformly through a base class pointer or reference, but still ensure that the correct, derived class-specific behavior is invoked at runtime.
+>This is key to implementing runtime polymorphism, which makes the code flexible, extendable, and easier to maintain — since I can add new shapes or objects without changing the core logic that uses the base class.
