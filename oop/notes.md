@@ -1442,6 +1442,15 @@ int main ()
 
 ###### Operator overloading
 
+Operator overloading in OOP means giving special meaning to operators like `+`, `-`, `*`, etc. when they are used with custom classes or structures. This lets objects interact using operators just like built-in types.
+
+So in this case we overload the `+operator` to define what "adding" two points means, which in this case is adding their respective `x` and `y` attributes.
+
+Another example is overloading the `=` operator to implement a deep copy.
+
+By default, the `=` operator does a shallow copy. But by overloading it, we can implement deep copy for heap allocated attributes.
+
+
 ```cpp
 class Point {
 public:
