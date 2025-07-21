@@ -1746,3 +1746,174 @@ A more friendly explanation:
 
 > Virtual functions allow me to treat different derived class objects uniformly through a base class pointer or reference, but still ensure that the correct, derived class-specific behavior is invoked at runtime.
 >This is key to implementing runtime polymorphism, which makes the code flexible, extendable, and easier to maintain — since I can add new shapes or objects without changing the core logic that uses the base class.
+
+### Abstraction
+
+Hiding all un-necessary details and showing only the essential parts or information. Abstraction is not all about hiding information but also showing necessary information.
+
+Access modifiers are one of the ways of implementing abstraction.
+
+### Abstract Class
+
+> **Abstract:** existing only as an idea, not as a physical thing.
+
+An **abstract class** is a special class that defines an **interface for its derived classes**. It **cannot be instantiated**, meaning you can't create objects of it directly.
+
+A class becomes abstract when it contains **at least one pure virtual function**. The members, especially the pure virtual functions, are intended to be **overridden** by derived classes to provide specific implementations.
+
+However, you can use **pointers and references to abstract class types**.
+
+#### Pure Virtual Function
+
+A pure virtual function is declared by assigning `= 0` in its declaration:
+
+```cpp
+class Shape {
+public:
+    // Pure virtual function
+    virtual void draw() = 0;
+};
+```
+
+#### Key Properties of Abstract Class
+
+- Cannot create object of abstract class.
+- Must be inherited and the pure virtual function must be overridden.
+- Used to define interfaces / contracts that child classes must implement.
+
+### Example
+
+```cpp
+class PaymentMethod {
+public:
+    virtual void pay(double amount) = 0;
+
+    virtual ~PaymentMethod() = default;
+};
+
+class CreditCard : public PaymentMethod {
+public:
+    void pay(double amount) override {
+        std::cout << "Paid " << amount << " using credit card\n";
+    }
+};
+
+class Upi : public PaymentMethod {
+public:
+    void pay(double amount) override {
+        std::cout << "Paid " << amount << " via UPI\n";
+    }
+};
+
+class Cash : public PaymentMethod {
+public:
+    void pay(double amount) override {
+        std::cout << "Paid " << amount << " in cash\n";
+    }
+};
+
+int main ()
+{
+    PaymentMethod* payment;
+
+    CreditCard c;
+    payment = &c;
+    payment->pay(300);
+    // you don't need to call delete for `c` object as it will be deleted
+    // when it goes out of scope
+
+    // or 
+    payment = new Upi();
+    payment->pay(400);
+    delete payment;
+
+    payment = new Cash();
+    payment->pay(500);
+    delete payment;
+    return 0;
+}
+```
+
+### Why Use Abstract Class
+
+- To enforce a **common interface** for all derived classes.
+- Supports **polymorphism** — allows using base class pointers to call derived class implementations.
+
+### Abstract Class Destructor
+
+When managing resources of an object using a **base class pointer**, we need to ensure that resources held by the object are properly released when deleted via the base pointer. This is possible by having a **virtual destructor** in the base class.
+
+Example:
+
+```cpp
+PaymentMethod* payment;
+payment = new Upi();
+payment->pay(400);
+delete payment;
+```
+
+###### If the base class destructor is virtual
+
+- `delete payment` first calls the **destructor of the actual object type** — in this case, `Upi`.
+- Inside the `Upi` destructor, any dynamically allocated resources are cleaned up.
+- Then the **`PaymentMethod` destructor** is called.
+- Finally, the memory allocated for the **entire `Upi` object** is freed from the heap, even though the pointer is of type `PaymentMethod*`.
+
+> This ensures that the **whole object is properly destroyed**, including both the derived and base parts.
+
+###### If the base class destructor is not virtual
+
+- Only the **`PaymentMethod` destructor** is called.
+- The **`Upi` destructor is skipped**, even though the actual object is of type `Upi`.
+- As a result, any resources dynamically allocated inside `Upi` are **never freed**, causing **resource leaks**.
+- The memory for the `Upi` object is only **partially cleaned**, leaving the derived part improperly destructed — leading to **undefined behavior**.
+
+> **Note:**  
+> `delete` does not delete the base class separately; it always deletes the entire object created on the heap (like Upi). The destruction process starts by calling the **destructor of the actual object's type**, and then proceeds up the inheritance chain, calling each base class destructor in order.
+
+###### What if the abstract base class has heap-allocated attributes?
+
+If the **abstract class** (`PaymentMethod`) itself contains attributes that are **dynamically allocated on the heap**, you can **clean them up inside the base class destructor**.
+
+```cpp
+class PaymentMethod {
+public:
+    virtual ~PaymentMethod() {
+        // Cleanup resources
+        // if not, just use virtual ~PaymentMethod() = default;
+        // To-Do : implement example using a heap allocated attribute
+    }
+};
+```
+
+Since the **base class destructor is virtual**, when you call `delete payment`:
+
+- First, the **derived class destructor** (like `Upi`) runs, cleaning up its own resources.
+- Then, the **base class destructor** (`PaymentMethod`) runs, where it can:
+  - **Delete any heap-allocated attributes** owned by the abstract class.
+  - Perform any additional cleanup.
+
+> This ensures that **all resources** (both from derived and base classes) are properly freed when using `delete`.
+
+###### What happens to the `payment` pointer after `delete payment`?
+
+- The **`delete payment`** statement:
+  - Destroys the **entire object** that `payment` was pointing to (like `Upi`).
+  - Releases the **allocated heap memory** for that object.
+  
+- However, the **`payment` pointer itself is not deleted or reset** — it still holds the **same (now dangling) memory address** that is no longer valid.
+
+> ⚠️ Accessing `payment` after `delete payment` is **undefined behavior** because it points to memory that has been deallocated.
+
+> If needed, it's a good practice to **set the pointer to `nullptr`** after deletion:
+
+```cpp
+delete payment;
+payment = nullptr;
+```
+
+### Destructor Cleanup Summary
+
+- When you use `delete payment`, **all class attributes (whether dynamically allocated or not)** are cleaned up as part of the destructor chain.
+- If a class has **heap-allocated data**, you must explicitly `delete` or free them in that class's destructor.
+- The actual **object memory** (allocated by `new`) is automatically freed after all destructors complete.

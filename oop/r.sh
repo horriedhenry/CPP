@@ -1,3 +1,3 @@
-g++ ./virtual_function_ex.cpp -o a
+g++ ./abstract_class.cpp -o a
 ./a
 rm ./a
