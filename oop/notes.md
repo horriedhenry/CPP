@@ -1409,7 +1409,7 @@ A function is said to be overloaded when:
 - There are two or more functions with the same name but a different number of parameters.
 - There are functions with the same number of parameters, but the parameter types are different.
 
-⚠️ Note:
+ Note:
 > If two functions have the same name, the same number of parameters, and the same parameter types, but only differ in their return type, this does not qualify as function overloading.
 
 You will get an error:
@@ -1903,7 +1903,7 @@ Since the **base class destructor is virtual**, when you call `delete payment`:
   
 - However, the **`payment` pointer itself is not deleted or reset** — it still holds the **same (now dangling) memory address** that is no longer valid.
 
-> ⚠️ Accessing `payment` after `delete payment` is **undefined behavior** because it points to memory that has been deallocated.
+> Accessing `payment` after `delete payment` is **undefined behavior** because it points to memory that has been deallocated.
 
 > If needed, it's a good practice to **set the pointer to `nullptr`** after deletion:
 
@@ -1917,3 +1917,485 @@ payment = nullptr;
 - When you use `delete payment`, **all class attributes (whether dynamically allocated or not)** are cleaned up as part of the destructor chain.
 - If a class has **heap-allocated data**, you must explicitly `delete` or free them in that class's destructor.
 - The actual **object memory** (allocated by `new`) is automatically freed after all destructors complete.
+
+### The `static` Keyword
+
+The `static` keyword in C++ means that a variable or function belongs to the class itself, not to any object. It also means that the memory for it is created only once and lasts for the entire program.
+
+### Meaning and General Concepts
+
+1. **Belongs to the Class, Not Instances:**  
+   Static members (attributes or functions) are tied to the class itself, not to any particular object. Only **one shared copy exists**, no matter how many objects are created.
+
+2. **Lifetime:**  
+   Static members exist for the **entire program duration**. Memory is allocated when the program starts (or the class is loaded) and released at program termination.
+
+3. **Access:**  
+   Static members can be **accessed directly using the class name**, without creating an object.
+
+
+### Static Attributes (Static Data Members)
+
+### Characteristics:
+
+- **Single Copy:** Shared across all objects.
+- **Memory:** Allocated once, typically in the **data segment**.
+- **Initialization:** In C++, defined and initialized **outside the class**.
+- **Access:** Via `ClassName::staticAttribute` in C++ or `ClassName.staticAttribute` in Java/C#.
+
+### Example:
+```cpp
+class Counter {
+public:
+    // declared inside the class (once)
+    static int counter;
+
+    Counter()
+    {
+        // or just use counter
+        Counter::counter++;
+    }
+
+    void displayCount()
+    {
+        // same here just use counter, it works
+        std::cout << Counter::counter << '\n';
+    }
+};
+
+// Static attribute must be defined/initialized outside the class.
+// This is required by the compiler for proper linkage.
+// int Counter::counter; // Just definition (value is zero-initialized by default)
+int Counter::counter{0};  // Definition + explicit initialization to 0
+
+int main()
+{
+    Counter cObj1;
+    cObj1.displayCount(); // count : 1
+
+    Counter cObj2;
+    cObj2.displayCount(); // count : 2
+
+    Counter cObj3;
+    cObj3.displayCount(); // count : 3
+
+    // std::cout << Counter::counter << '\n'; // prints 3
+
+    // you can also access counter using an object as it's public
+    // Regardless of which object is used, static members are shared across all instances
+    // but it's recommend to use the class name
+
+    std::cout << cObj1.counter << '\n';
+}
+```
+
+### Common Use Cases:
+
+- Tracking number of objects.
+- Global settings shared across instances.
+- Shared caching or logging mechanisms.
+
+### Static Member Functions (Static Methods)
+
+### Characteristics:
+
+- **No `this` pointer:** Cannot access non-static members directly.
+- **Can Access :** Only static members.
+- **Cannot Access :** non-static members of a class, as it requires sepcific instance/object data. And static members are not tied to any object, they belong to the class.
+- **Called Using :** Called using the **class name directly**.
+
+### Example:
+```cpp
+class MathOperations {
+public:
+    int number;
+    static int add(int a, int b) { 
+        // return number + a + b; // throws an error : 
+        // Invalid use of member 'number' in static member function [invalid_member_use_in_method]
+        // cannot use non-static members inside static methods
+        return a + b;
+    }
+    static int multiply(int a, int b) {
+        return a * b;
+    }
+};
+
+int main() {
+    std::cout << "Sum: "     << MathOperations::add(5, 3)      << '\n';
+    std::cout << "Product: " << MathOperations::multiply(4, 2) << '\n';
+    
+    // can also use an object
+    MathOperations obj;
+    std::cout << "Sum: "     << obj.add(4, 5) << '\n';
+    return 0;
+}
+```
+
+### Use Cases:
+
+- Utility or helper methods.
+- Factory methods.
+- Functions that don't depend on object-specific data.
+
+### Static Objects
+
+A **static object** has **static storage duration**:  
+Allocated when the program starts (or when first encountered in local scope), and deallocated when the program ends.
+
+### Scenarios:
+
+### 1. Global Static Object
+```cpp
+class MyGlobalClass {
+public:
+    MyGlobalClass() { std::cout << "Global constructor!\n"; }
+    ~MyGlobalClass() { std::cout << "Global destructor!\n"; }
+};
+
+MyGlobalClass globalObj;  // Global static object, if you declare it in global scope, by default it will be a global static object
+
+int main() {
+    std::cout << "Inside main\n";
+    return 0;
+}
+```
+
+**Output:**
+```
+Global constructor!
+Inside main
+Global destructor!
+```
+
+Even if we use the object normally...
+
+```cpp
+int main()
+{
+    std::cout << "Inside main\n";
+    MyGlobalClass globalObj;
+}
+```
+This will be the **Output:**.
+```
+Inside main
+Global constructor!
+Global destructor!
+```
+Any object that is stack allocated with using `new` will be destroyed when it goes out of scope in this case it goes out of `main` scope. But the best way to understand about static object is ..
+
+### 1.1 Best example of static object
+
+```cpp
+class MyObj {
+public:
+    MyObj()
+    {
+        std::cout << "MyObj Constructor called\n";
+    }
+
+    void doSomething()
+    {
+        std::cout << "MyObj is doing something\n";
+    }
+
+    ~MyObj()
+    {
+        std::cout << "MyObj Destructor called\n";
+    }
+};
+
+void functionWithStaticObject()
+{
+    std::cout << "Entering functionWithStaticObject\n";
+    static MyObj obj;
+    std::cout << "Exiting functionWithStaticObject\n\n";
+}
+
+void functionWithNonStaticObject()
+{
+    std::cout << "Entering functionWithNonStaticObject\n";
+    MyObj obj;
+    std::cout << "Exiting functionWithNonStaticObject\n";
+}
+
+int main()
+{
+    std::cout << "Entering main() \n";
+
+    functionWithStaticObject(); // construct called once here
+    std::cout << '\n';
+    functionWithStaticObject(); // constructor not-called
+    std::cout << '\n';
+    functionWithStaticObject(); // constructor not-called
+
+    // functionWithNonStaticObject
+    functionWithNonStaticObject();
+    std::cout << '\n';
+    functionWithNonStaticObject();
+    std::cout << '\n';
+
+    std::cout << "Exiting main() \n";
+    // MyObj destructor called for static obj
+    return 0;
+}
+```
+
+**Output**
+
+```console
+Entering main()
+Entering functionWithStaticObject
+MyObj Constructor called
+Exiting functionWithStaticObject
+
+Entering functionWithStaticObject
+Exiting functionWithStaticObject
+
+Entering functionWithStaticObject
+Exiting functionWithStaticObject
+
+Entering functionWithNonStaticObject
+MyObj Constructor called
+Exiting functionWithNonStaticObject
+MyObj Destructor called
+
+Entering functionWithNonStaticObject
+MyObj Constructor called
+Exiting functionWithNonStaticObject
+MyObj Destructor called
+
+Exiting main()
+MyObj Destructor called
+```
+Static object is **instantiated** once in the lifetime of the program and freed up at then end of execution of the program.
+
+Example with **MyGlobalClass**
+
+```cpp
+class MyGlobalClass {
+public:
+    MyGlobalClass() { std::cout << "Global constructor!\n"; }
+    void doSomething()
+    {
+        std::cout << "Doing Something!\n";
+    }
+    ~MyGlobalClass() { std::cout << "Global destructor!\n"; }
+};
+
+MyGlobalClass globalObj;
+
+void fun();
+
+int main ()
+{
+    std::cout << "Inside main()\n";
+    fun();
+    std::cout << "Exit main()\n";
+    return 0;
+}
+
+void fun()
+{
+    std::cout << "Inside fun()\n";
+    globalObj.doSomething();
+}
+```
+**output**
+```console
+Global constructor!
+Inside main()
+Inside fun()
+Doing Something!
+Exit main()
+Global destructor!
+```
+
+### 2. Static Local Variable
+```cpp
+void myFunction() {
+    static int callCount = 0; // this example resembles the static object inside a function..
+    callCount++;
+    std::cout << "Function called " << callCount << " times.\n";
+}
+
+int main() {
+    myFunction();  // Function called 1 times.
+    myFunction();  // Function called 2 times.
+    myFunction();  // Function called 3 times.
+    return 0;
+}
+```
+
+### 3. Static Object as Class Member
+
+```cpp
+class Logger {
+public:
+    Logger() { 
+        std::cout << "\nLogger initialized.\n";
+    }
+    void log(const std::string& msg) {
+        std::cout << "LOG: " << msg << "\n";
+    }
+    ~Logger() { 
+        std::cout << "\nLogger destructor called.\n";
+    }
+};
+
+class MobileApplication {
+public:
+    // declared here 
+    static Logger appLogger; // only initialized once
+    std::string objName;
+
+    MobileApplication(const std::string& objName)
+    {
+        this->objName = objName;
+        std::cout << "\nMobileApplication Constructor called\n";
+    }
+
+    void doSomething() {
+        std::cout << "\nCurrent objName : " << this->objName << '\n';
+        appLogger.log("Doing something important.");
+    }
+
+    ~MobileApplication()
+    {
+        std::cout << "\nMobileApplication Destructor called for objName : " << this->objName << '\n';
+    }
+};
+
+// defined or instantiated in global scope
+Logger MobileApplication::appLogger; // appLogger is instantiated here once
+
+int main() {
+    // even if we create multiple objects the appLogger is initialized once (in global scope)
+    MobileApplication app1("app1"), app2("app2");
+    app1.doSomething();
+    app2.doSomething();
+
+    return 0;
+}
+```
+
+**Output:**
+```
+Logger initialized.
+
+MobileApplication Constructor called
+
+MobileApplication Constructor called
+
+Current objName : app1
+LOG: Doing something important.
+
+Current objName : app2
+LOG: Doing something important.
+
+MobileApplication Destructor called for objName : app2
+
+MobileApplication Destructor called for objName : app1
+
+Logger destructor called.
+```
+- You can for `static` object the constructor is called at the beginning of the program and destructor at the end.
+- **IMP** `static` object's are destroyed after all the objects are destroyed, we know that order of destructor called is based on **LIFO** last object created is destroyed first. If that is the case then `Logger` destructor should have been called before `app2`. But that was not the case.
+
+Without `static Logger appLogger` this is how the non-static object will behave
+
+```cpp
+class Logger {
+public:
+    Logger() { 
+        std::cout << "\nLogger initialized.\n";
+    }
+    void log(const std::string& msg) {
+        std::cout << "LOG: " << msg << "\n";
+    }
+    ~Logger() { 
+        std::cout << "\nLogger destructor called.\n";
+    }
+};
+
+class DesktopApplication {
+public:
+    Logger appLogger;
+    std::string objName;
+
+    DesktopApplication(const std::string& objName)
+    {
+        this->objName = objName;
+        std::cout << "\nMobileApplication Constructor called\n";
+    }
+
+    void doSomething() {
+        std::cout << "\nCurrent objName : " << this->objName << '\n';
+        appLogger.log("Doing something important.");
+    }
+    ~DesktopApplication()
+    {
+        std::cout << "\nDesktopApplication Destructor called for objName : " << this->objName << "\n";
+    }
+};
+
+int main() {
+    DesktopApplication dapp1("dapp1");
+    dapp1.doSomething();
+
+    DesktopApplication dapp2("dapp2");
+    dapp2.doSomething();
+    return 0;
+}
+```
+**output**
+
+```console
+Logger initialized.
+
+MobileApplication Constructor called
+
+Current objName : dapp1
+LOG: Doing something important.
+
+Logger initialized.
+
+MobileApplication Constructor called
+
+Current objName : dapp2
+LOG: Doing something important.
+
+DesktopApplication Destructor called for objName : dapp2
+
+Logger destructor called.
+
+DesktopApplication Destructor called for objName : dapp1
+
+Logger destructor called.
+```
+
+### Summary
+
+| Aspect             | Static Members                | Non-Static Members          |
+|--------------------|-------------------------------|-----------------------------|
+| **Belongs to**     | Class                         | Individual object           |
+| **Lifetime**       | Entire program duration       | Object lifespan             |
+| **Access**         | Via class name                | Via object                  |
+| **`this` pointer** | Not available                 | Available                   |
+| **Memory**         | Data/code segment (once only) | Allocated per object        |
+| **Access scope**   | Only static members           | Both static & non-static    |
+
+#### Conclusion
+
+The `static` keyword is essential for:
+
+- Managing memory efficiently.
+- Sharing data across objects.
+- Defining behaviors not tied to object state.
+
+#### `static` keyword Quick Recall:
+
+- `static` = shared + persists for program lifetime
+- Static attributes/functions: tied to class
+- Static objects: exist once, auto-cleanup at program end
+- Use when data/behavior is common for all objects
