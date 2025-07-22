@@ -2399,3 +2399,5 @@ The `static` keyword is essential for:
 - Static attributes/functions: tied to class
 - Static objects: exist once, auto-cleanup at program end
 - Use when data/behavior is common for all objects
+
+### To-Do : Friend function & Friend class
